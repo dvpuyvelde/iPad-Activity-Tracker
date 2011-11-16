@@ -7,8 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FDCOAuthViewController.h"
+#import "ZKQueryResult.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
+
+@property (strong, nonatomic) FDCOAuthViewController *oAuthViewController;
+
+-(void)startApp;
+- (void)queryResult:(ZKQueryResult *)result error:(NSError *)error context:(id)context;
+-(void)logout;
+-(void)popLoginWindow;
 
 @property (strong, nonatomic) UIWindow *window;
 

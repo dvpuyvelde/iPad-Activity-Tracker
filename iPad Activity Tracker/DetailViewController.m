@@ -126,4 +126,7 @@
     self.masterPopoverController = nil;
 }
 
+- (IBAction)logoutButtonClicked:(id)sender {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"logout" object:self];
+}
 @end
