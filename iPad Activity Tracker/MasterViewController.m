@@ -76,7 +76,8 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
-    return YES;
+    //return YES;
+    return (interfaceOrientation == UIInterfaceOrientationLandscapeLeft);
 }
 
 // Customize the number of sections in the table view.

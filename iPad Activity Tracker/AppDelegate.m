@@ -13,6 +13,9 @@
 #import "DetailViewController.h"
 #import "LoginView.h"
 #import "SFDCEventsView.h"
+#import "SFDCEventDetailViewController.h"
+#import "CalendarViewController.h"
+#import "ZKSforce.h"
 #import "FDCServerSwitchboard.h"
 #import "ZKSObject.h"
 
@@ -24,12 +27,14 @@
 @synthesize window = _window;
 @synthesize splitViewController = _splitViewController;
 @synthesize oAuthViewController;
+@synthesize _sfdcEventDetailViewController;
 
 - (void)dealloc
 {
     [_window release];
     [_splitViewController release];
     [oAuthViewController release];
+    [_sfdcEventDetailViewController release];
     [super dealloc];
 }
 
@@ -41,8 +46,6 @@
     ;
     self.window.rootViewController = loginview;
     
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loggedin:) name:@"LoggedIn" object:loginview];
-    
     [self.window makeKeyAndVisible];
     
     //if we already have a refreshtoken, just set it and don't log in
@@ -53,8 +56,9 @@
         [[FDCServerSwitchboard switchboard] setSessionId:[[NSUserDefaults standardUserDefaults] valueForKey:@"sessionId"]];
         [[FDCServerSwitchboard switchboard] setOAuthRefreshToken:refreshtoken];
         
-        //[[FDCServerSwitchboard switchboard] query:@"select Id, Name from Account" target:self selector:@selector(queryResult:error:context:) context:nil];    
-        [self startApp];
+        [[FDCServerSwitchboard switchboard] getUserInfoWithTarget:self selector:@selector(userInfoResult:) context:nil];
+        
+        //[self startApp]; we'll do this after we have the userinfo object returned
         return YES;
     }
     
@@ -85,6 +89,7 @@
         [[FDCServerSwitchboard switchboard] setOAuthRefreshToken:[[self oAuthViewController] refreshToken]];
         [[[self window] rootViewController] dismissModalViewControllerAnimated:YES];
         
+        
         [[self oAuthViewController] autorelease];
         
         //save all the authentication info for later re-use (oauth)
@@ -94,11 +99,18 @@
         [[NSUserDefaults standardUserDefaults] setValue:[vc accessToken] forKey:@"sessionId"];
         
         [self startApp];
+        
     }
     else if (error)
     {
         NSLog(@"An error occurred while trying to login.");
     }
+}
+
+-(void)userInfoResult:(ZKUserInfo *)result {
+    NSLog(@"%@", [result userId]);
+    [[FDCServerSwitchboard switchboard] setUserInfo:result];
+    [self startApp];
 }
 
 //log out
@@ -108,70 +120,58 @@
     [self popLoginWindow];
 }
 
-/*
-- (void)queryResult:(ZKQueryResult *)result error:(NSError *)error context:(id)context
-{
-    NSLog(@"result came back");
-    if (result && !error)
-    {
-        NSArray *results = [result records];
-        for(ZKSObject *obj in results) {
-            NSLog(@"%@",[obj fieldValue:@"Name"]);
-        }
-    }
-    else if (error)
-    {
-        NSLog(@"handle error");
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle: @"Error"
-                              message: [[error userInfo] objectForKey:@"faultstring"]
-                              delegate: nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-    }
-}
-*/
-
-
-//log in observer will fire this method when the loginview signals a successful login
-/*
--(void)loggedin:(NSNotification *) notification {
-    LoginView *lv = [notification object];
-    NSLog(@"Username : %@", [[lv usernameTextField] text]);
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [self startApp];
-}
-*/
-
 
 //This method will start the actual uisplitviewcontroller and child views
 -(void)startApp {
    
-    // Override point for customization after application launch.
-    
-    //MasterViewController *masterViewController = [[[MasterViewController alloc] initWithNibName:@"MasterViewController" bundle:nil] autorelease];
+    // Salesforce events left view
     SFDCEventsView *sfdceventsview = [[[SFDCEventsView alloc] initWithNibName:@"SFDCEventsView" bundle:nil] autorelease];
-    //UINavigationController *masterNavigationController = [[[UINavigationController alloc] initWithRootViewController:sfdceventsview] autorelease];
+    [sfdceventsview setTitle:@"Salesforce Agenda"];
+    [[sfdceventsview tabBarItem] setImage:[UIImage imageNamed:@"openactivity32.png"]];
+    //set the needed observers for events happening in child views
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sfdceventselected:) name:@"SFDCEVENTSELECTED" object:sfdceventsview];
     
-    DetailViewController *detailViewController = [[[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] autorelease];
-    //UINavigationController *detailNavigationController = [[[UINavigationController alloc] initWithRootViewController:detailViewController] autorelease];
-    UIBarButtonItem *logoutbutton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
+    //iPad calendar left view
+    CalendarViewController *calendarview = [[[CalendarViewController alloc] initWithNibName:@"CalendarViewController" bundle:nil] autorelease];
+    [calendarview setTitle:@"iPad Calendar"];
+    [[calendarview tabBarItem] setImage:[UIImage imageNamed:@"openactivity32.png"]];
     
-    [[detailViewController navigationItem] setRightBarButtonItem:logoutbutton];
+    //left tab bar
+    UITabBarController *tabbarcontroller = [[[UITabBarController alloc] init] autorelease];
+    tabbarcontroller.viewControllers = [NSArray arrayWithObjects:sfdceventsview, calendarview, nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:@"logout" object:detailViewController];
+    //DetailViewController *detailViewController = [[[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil] autorelease];
     
+    //Main SFDC Event detail view
+    SFDCEventDetailViewController *sfdcEventDetailViewController = [[SFDCEventDetailViewController alloc] initWithNibName:@"SFDCEventDetailViewController" bundle:nil];
+    [self set_sfdcEventDetailViewController:sfdcEventDetailViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:@"LOGOUT" object:sfdcEventDetailViewController];
+    
+    //log out button and notification
+    //UIBarButtonItem *logoutbutton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
+    //[[sfdcEventDetailViewController navigationItem] setRightBarButtonItem:logoutbutton];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:@"logout" object:sfdcEventDetailViewController];
+    
+    //assemble the views in the splitviewcontroller
     self.splitViewController = [[[UISplitViewController alloc] init] autorelease];
-    self.splitViewController.delegate = detailViewController;
-    self.splitViewController.viewControllers = [NSArray arrayWithObjects:sfdceventsview, detailViewController, nil];
+    self.splitViewController.delegate = sfdcEventDetailViewController;
+    self.splitViewController.viewControllers = [NSArray arrayWithObjects:tabbarcontroller, sfdcEventDetailViewController, nil];
     self.window.rootViewController = self.splitViewController;
     [self.window makeKeyAndVisible];
     
-    [logoutbutton release];
+    //[logoutbutton release];
 }
 
+
+/*
+ EVENT OBSERVER METHODS
+ */
+-(void)sfdceventselected:(NSNotification *)notification {
+    SFDCEventsView *eventsview = [notification object];
+    ZKSObject *activity = [eventsview selectedsfdcevent];
+    NSLog(@"SFDC EVENT SELECTED : %@", [activity fieldValue:@"Subject"]);  
+    [[self _sfdcEventDetailViewController] setActivity:activity];
+}
 
 
 - (void)applicationWillResignActive:(UIApplication *)application

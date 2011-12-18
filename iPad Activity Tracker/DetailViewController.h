@@ -12,6 +12,7 @@
 
 @property (strong, nonatomic) id detailItem;
 
+
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 - (IBAction)logoutButtonClicked:(id)sender;
 

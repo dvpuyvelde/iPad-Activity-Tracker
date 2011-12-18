@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "testView.h"
 
 @interface DetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -64,12 +65,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+	// Do any additional setup after loading the view, typically from a nib
     [self configureView];
 }
 
 - (void)viewDidUnload
 {
+
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -129,4 +131,6 @@
 - (IBAction)logoutButtonClicked:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"logout" object:self];
 }
+
+
 @end
