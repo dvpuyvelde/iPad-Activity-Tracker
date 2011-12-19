@@ -14,6 +14,7 @@
 }
 
 +(NSString*)formatDateAsString:(NSDate*)date;
++(NSString*)formatDateTimeAsStringUTC:(NSDate*)date;
 +(NSDate*)startOfWeek;
 +(NSDate*)endOfWeek;
 +(NSString*)startOfWeekAsString;

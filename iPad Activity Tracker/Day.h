@@ -18,6 +18,6 @@
 @property (nonatomic, retain) NSMutableArray *events;
 @property (nonatomic, retain) NSString *description;
 
--(void)addEvent:(ZKSObject*)event;
+-(void)addEvent:(NSObject*)event;
 
 @end

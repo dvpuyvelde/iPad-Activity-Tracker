@@ -20,6 +20,22 @@
     return [formatter stringFromDate:date];
 }
 
+//return a NSDate + Time as NSString in YYYY-MM-DDThh:mm:ss.000Z format
++(NSString*)formatDateTimeAsStringUTC:(NSDate*)date {
+    NSDateFormatter* formatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSDateFormatter* timeformatter = [[[NSDateFormatter alloc] init] autorelease];
+    NSTimeZone *timeZone = [NSTimeZone timeZoneWithName:@"UTC"];
+    [formatter setTimeZone:timeZone];
+    [timeformatter setTimeZone:timeZone];
+    //Set the required date format
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    [timeformatter setDateFormat:@"HH:mm:ss"];//THH:mm:ss.000Z
+    //NSLog(@"time string : %@", [timeformatter stringFromDate:date]);
+    NSString *fullstring = [[NSString alloc] initWithFormat:@"%@T%@.000Z", [formatter stringFromDate:date], [timeformatter stringFromDate:date]];
+    //Get the string date
+    return fullstring;
+}
+
 //get the start of the current week as string
 +(NSString*)startOfWeekAsString {
     return [self formatDateAsString:[self startOfWeek]];

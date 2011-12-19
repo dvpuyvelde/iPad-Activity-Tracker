@@ -67,6 +67,7 @@
 		E66B0C261472FD7E00BBA686 /* ZKXmlDeserializer.m in Sources */ = {isa = PBXBuildFile; fileRef = E66B0BFB1472FD7E00BBA686 /* ZKXmlDeserializer.m */; };
 		E66B0C2A147300C000BBA686 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = E66B0C28147300C000BBA686 /* LoginView.m */; };
 		E66B0C2B147300C000BBA686 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E66B0C29147300C000BBA686 /* LoginView.xib */; };
+		E67A7AD0149F58DA00C9164A /* datePicker16.gif in Resources */ = {isa = PBXBuildFile; fileRef = E67A7ACF149F58DA00C9164A /* datePicker16.gif */; };
 		E686A67E1473078600F0BE47 /* SFDCEventsView.m in Sources */ = {isa = PBXBuildFile; fileRef = E686A67C1473078600F0BE47 /* SFDCEventsView.m */; };
 		E686A67F1473078600F0BE47 /* SFDCEventsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E686A67D1473078600F0BE47 /* SFDCEventsView.xib */; };
 		E686A68B1474705800F0BE47 /* testView.m in Sources */ = {isa = PBXBuildFile; fileRef = E686A6891474705700F0BE47 /* testView.m */; };
@@ -192,6 +193,7 @@
 		E66B0C27147300C000BBA686 /* LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginView.h; sourceTree = "<group>"; };
 		E66B0C28147300C000BBA686 /* LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
 		E66B0C29147300C000BBA686 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		E67A7ACF149F58DA00C9164A /* datePicker16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = datePicker16.gif; sourceTree = "<group>"; };
 		E686A67B1473078600F0BE47 /* SFDCEventsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SFDCEventsView.h; sourceTree = "<group>"; };
 		E686A67C1473078600F0BE47 /* SFDCEventsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SFDCEventsView.m; sourceTree = "<group>"; };
 		E686A67D1473078600F0BE47 /* SFDCEventsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SFDCEventsView.xib; sourceTree = "<group>"; };
@@ -250,6 +252,7 @@
 		E66B0B861472FD1D00BBA686 /* iPad Activity Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				E67A7ACF149F58DA00C9164A /* datePicker16.gif */,
 				E602621B148AAE76000AEF45 /* openactivity32.png */,
 				E66B0B8F1472FD1D00BBA686 /* AppDelegate.h */,
 				E66B0B901472FD1D00BBA686 /* AppDelegate.m */,
@@ -449,6 +452,7 @@
 				E6026216148AA96B000AEF45 /* CalendarViewController.xib in Resources */,
 				E602621C148AAE76000AEF45 /* openactivity32.png in Resources */,
 				E6A2FA78148D1045005728CE /* SFDCEventDetailViewController.xib in Resources */,
+				E67A7AD0149F58DA00C9164A /* datePicker16.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

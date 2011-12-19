@@ -17,7 +17,8 @@
     NSMutableArray *dayheaders; //used to keep track of the headers in each day section of the UITableView
     UISegmentedControl *segmentedControl;
     UITableView *tableview;
-    //ZKSObject *selectedsfdcevent;
+    NSMutableSet *salesforceevents;
+    EKEvent *selectedipadevent;
 }
 
 @property (nonatomic, retain) NSMutableArray *dataRows;
@@ -26,7 +27,8 @@
 @property (nonatomic, retain) NSDate *startdate;
 @property (nonatomic, retain) NSDate *enddate;
 @property (retain, nonatomic) IBOutlet UITableView *tableview;
-//@property (retain, nonatomic) ZKSObject *selectedsfdcevent;
+@property (retain, nonatomic) EKEvent *selectedipadevent;
+@property (retain) NSMutableSet *salesforceevents;
 
 -(void)queryiPadCalendar;
 - (IBAction)changeWeek:(id)sender;

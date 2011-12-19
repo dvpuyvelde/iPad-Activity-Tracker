@@ -53,7 +53,7 @@
     if(refreshtoken) {
         [[FDCServerSwitchboard switchboard] setClientId:kSFOAuthConsumerKey];
         [[FDCServerSwitchboard switchboard] setApiUrlFromOAuthInstanceUrl:[[NSUserDefaults standardUserDefaults] valueForKey:@"apiUrlFromOAuthInstanceUrl"]];
-        [[FDCServerSwitchboard switchboard] setSessionId:[[NSUserDefaults standardUserDefaults] valueForKey:@"sessionId"]];
+        //[[FDCServerSwitchboard switchboard] setSessionId:[[NSUserDefaults standardUserDefaults] valueForKey:@"sessionId"]];
         [[FDCServerSwitchboard switchboard] setOAuthRefreshToken:refreshtoken];
         
         [[FDCServerSwitchboard switchboard] getUserInfoWithTarget:self selector:@selector(userInfoResult:) context:nil];
@@ -96,7 +96,7 @@
         FDCOAuthViewController *vc = [self oAuthViewController];
         [[NSUserDefaults standardUserDefaults] setValue:[vc refreshToken] forKey:@"refreshToken"];
         [[NSUserDefaults standardUserDefaults] setValue:[vc instanceUrl] forKey:@"apiUrlFromOAuthInstanceUrl"];
-        [[NSUserDefaults standardUserDefaults] setValue:[vc accessToken] forKey:@"sessionId"];
+        //[[NSUserDefaults standardUserDefaults] setValue:[vc accessToken] forKey:@"sessionId"];
         
         [self startApp];
         
@@ -107,8 +107,10 @@
     }
 }
 
+
+//user info result
 -(void)userInfoResult:(ZKUserInfo *)result {
-    NSLog(@"%@", [result userId]);
+    //NSLog(@"%@", [result userId]);
     [[FDCServerSwitchboard switchboard] setUserInfo:result];
     [self startApp];
 }
@@ -135,6 +137,7 @@
     CalendarViewController *calendarview = [[[CalendarViewController alloc] initWithNibName:@"CalendarViewController" bundle:nil] autorelease];
     [calendarview setTitle:@"iPad Calendar"];
     [[calendarview tabBarItem] setImage:[UIImage imageNamed:@"openactivity32.png"]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ipadeventselected:) name:@"IPADEVENTSELECTED" object:calendarview];
     
     //left tab bar
     UITabBarController *tabbarcontroller = [[[UITabBarController alloc] init] autorelease];
@@ -146,6 +149,7 @@
     SFDCEventDetailViewController *sfdcEventDetailViewController = [[SFDCEventDetailViewController alloc] initWithNibName:@"SFDCEventDetailViewController" bundle:nil];
     [self set_sfdcEventDetailViewController:sfdcEventDetailViewController];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:@"LOGOUT" object:sfdcEventDetailViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:calendarview selector:@selector(ipadeventsaved:) name:@"IPADEVENTSAVED" object:sfdcEventDetailViewController];
     
     //log out button and notification
     //UIBarButtonItem *logoutbutton = [[UIBarButtonItem alloc] initWithTitle:@"Logout" style:UIBarButtonItemStylePlain target:self action:@selector(logout)];
@@ -166,11 +170,20 @@
 /*
  EVENT OBSERVER METHODS
  */
+//SFDC Event
 -(void)sfdceventselected:(NSNotification *)notification {
     SFDCEventsView *eventsview = [notification object];
     ZKSObject *activity = [eventsview selectedsfdcevent];
-    NSLog(@"SFDC EVENT SELECTED : %@", [activity fieldValue:@"Subject"]);  
+    //NSLog(@"SFDC EVENT SELECTED : %@", [activity fieldValue:@"Subject"]);  
     [[self _sfdcEventDetailViewController] setActivity:activity];
+}
+
+//iPad Calendar Event
+-(void)ipadeventselected:(NSNotification *)notification {
+    CalendarViewController *eventsview = [notification object];
+    EKEvent *event = [eventsview selectedipadevent];
+    //NSLog(@"SFDC EVENT SELECTED : %@", [activity fieldValue:@"Subject"]);  
+    [[self _sfdcEventDetailViewController] setNewIPadEvent:event];
 }
 
 

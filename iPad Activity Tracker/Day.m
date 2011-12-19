@@ -16,7 +16,7 @@
 @synthesize description;
 
 
--(void)addEvent:(ZKSObject*)event {
+-(void)addEvent:(NSObject*)event {
     if(!events) {
         events = [[NSMutableArray alloc] init];
     }
