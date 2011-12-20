@@ -149,11 +149,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "SFDCEventDetailViewController.m"
-         timestampString = "346030508.658845"
+         timestampString = "346072788.509113"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "148"
-         endingLineNumber = "148"
+         startingLineNumber = "157"
+         endingLineNumber = "157"
          landmarkName = "-saveToSalesforceClicked:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -163,11 +163,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "SFDCEventDetailViewController.m"
-         timestampString = "346030508.658845"
+         timestampString = "346110147.776866"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "183"
-         endingLineNumber = "183"
+         startingLineNumber = "220"
+         endingLineNumber = "220"
          landmarkName = "-eventSaveResult:error:context:"
          landmarkType = "5">
       </FileBreakpoint>
@@ -183,6 +183,48 @@
          startingLineNumber = "341"
          endingLineNumber = "341"
          landmarkName = "-ipadeventsaved:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "SFDCEventDetailViewController.m"
+         timestampString = "346110147.776866"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "204"
+         endingLineNumber = "204"
+         landmarkName = "-opportunityDescribeResult:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "SFDCEventDetailViewController.m"
+         timestampString = "346110147.776866"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "208"
+         endingLineNumber = "208"
+         landmarkName = "-opportunityDescribeResult:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "SFDCEventDetailViewController.m"
+         timestampString = "346110407.05333"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "196"
+         endingLineNumber = "196"
+         landmarkName = "-eventLayoutDescribeResult:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

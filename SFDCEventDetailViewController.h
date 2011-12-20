@@ -22,6 +22,9 @@
     UILabel *_subjectoutlet;
     UILabel *_locationoutlet;
     UILabel *_typeoutlet;
+    BOOL isipadevent;
+    BOOL issfdcevent;
+    
 }
 
 @property (nonatomic, retain) ZKSObject *activity;
@@ -42,5 +45,6 @@
 - (IBAction)logoutButtonClicked:(id)sender;
 -(void) setNewIPadEvent:(EKEvent *)newEvent;
 - (IBAction)saveToSalesforceClicked:(id)sender;
+- (IBAction)TypeButtonTouched:(id)sender;
 
 @end

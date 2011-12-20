@@ -9,6 +9,9 @@
 #import "SFDCEventDetailViewController.h"
 #import "FDCServerSwitchboard.h"
 #import "ZKSforce.h"
+#import "ZKPicklistEntry.h"
+#import "ZKDescribeLayoutResult.h"
+#import "ZKRecordTypeMapping.h"
 
 @interface SFDCEventDetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
@@ -93,6 +96,9 @@
  */
 -(void) setActivity:(ZKSObject *)newActivity {
     
+    issfdcevent = YES;
+    isipadevent = NO;
+    
     NSDateFormatter *dtf = [[NSDateFormatter alloc] init];
     [dtf setDateFormat:@"EEE, MMM dd - HH:mm"];
     activity = newActivity;
@@ -108,8 +114,8 @@
     //self.navigationItem.title = [activity fieldValue:@"Subject"];
     self.navigationbartitle.title = [activity fieldValue:@"Subject"];
     
-    [[self RelatedToLabel] setHidden:NO];
-    [[self TypeLabel] setHidden:NO];    
+    //[[self RelatedToLabel] setHidden:NO];
+    //[[self TypeLabel] setHidden:NO];    
     
     [dtf release];
 }
@@ -119,6 +125,9 @@
  SET THE IPAD EVENT TO DISPLAY
  */
 -(void) setNewIPadEvent:(EKEvent *)newEvent {
+    
+    isipadevent = YES;
+    issfdcevent = NO;
     
     NSDateFormatter *dtf = [[NSDateFormatter alloc] init];
     [dtf setDateFormat:@"EEE, MMM dd - HH:mm"];
@@ -135,8 +144,8 @@
     //self.navigationItem.title = [activity fieldValue:@"Subject"];
     self.navigationbartitle.title = [ipadevent title];
     
-    [[self RelatedToLabel] setHidden:YES];
-    [[self TypeLabel] setHidden:YES];
+    //[[self RelatedToLabel] setHidden:YES];
+    //[[self TypeLabel] setHidden:YES];
     
     [dtf release];
 }
@@ -174,6 +183,34 @@
     
     //NSArray *results = [client create:[NSArray arrayWithObject:saveobjects]];
     [saveobjects release];
+    
+}
+
+
+//Type button touched
+- (IBAction)TypeButtonTouched:(id)sender {
+    [[FDCServerSwitchboard switchboard] describeLayout:@"Event" target:self selector:@selector(eventLayoutDescribeResult:) context:nil];
+}
+
+-(void)eventLayoutDescribeResult:(ZKDescribeLayoutResult *)result {
+    for(ZKRecordTypeMapping *mapping in [result recordTypeMappings]) {
+        NSLog(@"Mapping : %@", [mapping name]);
+    }
+}
+
+-(void)opportunityDescribeResult:(ZKDescribeSObject *)result {
+    /*
+    NSLog(@"Result : %@", [result fields]);
+    //get the type field
+    for(ZKDescribeField *field in [result fields]) {
+        //NSLog(@"Field Name : %@", [field name]);
+        if([[field name] isEqualToString:@"Type"]) {
+            NSLog(@"Type Field : %@", [field picklistValues]);
+            for(ZKPicklistEntry *ple in [field picklistValues]) {
+                NSLog(@"Value : %@",[ple label]);
+            }
+        }
+    }*/
     
 }
 
