@@ -24,7 +24,10 @@
     UILabel *_typeoutlet;
     BOOL isipadevent;
     BOOL issfdcevent;
-    
+    UIPopoverController *popoverController;
+    NSString *selectedwhatid;
+    NSString *selectedwhat;
+    NSString *selectedtype;
 }
 
 @property (nonatomic, retain) ZKSObject *activity;
@@ -38,13 +41,18 @@
 @property (nonatomic, retain) IBOutlet UILabel *locationoutlet;
 @property (retain, nonatomic) IBOutlet UINavigationBar *navigationBar;
 @property (retain, nonatomic) IBOutlet UINavigationItem *navigationbartitle;
-@property (retain, nonatomic) IBOutlet UILabel *RelatedToLabel;
+//@property (retain, nonatomic) IBOutlet UILabel *RelatedToLabel;
 @property (retain, nonatomic) IBOutlet UILabel *TypeLabel;
 @property (retain, nonatomic) IBOutlet UIButton *SaveToSalesforceButtonOutlet;
+@property (nonatomic, retain) UIPopoverController *popoverController;
+@property (nonatomic, retain) NSString *selectedwhatid;
+@property (nonatomic, retain) NSString *selectedwhat;
+@property (nonatomic, retain) NSString *selectedtype;
 
 - (IBAction)logoutButtonClicked:(id)sender;
 -(void) setNewIPadEvent:(EKEvent *)newEvent;
 - (IBAction)saveToSalesforceClicked:(id)sender;
 - (IBAction)TypeButtonTouched:(id)sender;
+- (IBAction)RelatedToButtonTouched:(id)sender;
 
 @end

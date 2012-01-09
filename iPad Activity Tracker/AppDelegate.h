@@ -7,21 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FDCOAuthViewController.h"
+//#import "FDCOAuthViewController.h"
 #import "SFDCEventDetailViewController.h"
 #import "ZKQueryResult.h"
 #import "ZKUserInfo.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
-@property (strong, nonatomic) FDCOAuthViewController *oAuthViewController;
+//@property (strong, nonatomic) FDCOAuthViewController *oAuthViewController;
 @property (strong, nonatomic) SFDCEventDetailViewController *_sfdcEventDetailViewController;
 
 -(void)startApp;
-- (void)queryResult:(ZKQueryResult *)result error:(NSError *)error context:(id)context;
 -(void)logout;
 -(void)popLoginWindow;
--(void)userInfoResult:(ZKUserInfo *)result;
 -(void)sfdceventselected:(NSNotification *) notification;
 
 @property (strong, nonatomic) UIWindow *window;

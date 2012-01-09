@@ -9,7 +9,7 @@
 #import "CalendarViewController.h"
 #import "Utils.h"
 #import "Day.h"
-#import "FDCServerSwitchboard.h"
+#import "SFDC.h"
 #import "ZKUserInfo.h"
 
 @implementation CalendarViewController
@@ -21,6 +21,7 @@
 @synthesize enddate;
 @synthesize tableview;
 @synthesize selectedipadevent;
+@synthesize salesforceeventkeys;
 @synthesize salesforceevents;
 
 - (void)dealloc
@@ -31,7 +32,7 @@
     [enddate release];
     [dataRows release];
     [tableview release];
-    [selectedipadevent release];
+    [salesforceeventkeys release];
     [salesforceevents release];
     [super dealloc];
 }
@@ -42,7 +43,8 @@
     if (self) {
         // Custom initialization
         store = [[EKEventStore alloc] init];
-        salesforceevents = [[NSMutableSet alloc] init];
+        salesforceeventkeys = [[NSMutableSet alloc] init];
+        salesforceevents = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -62,8 +64,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.startdate = [Utils startOfWeek];
-    self.enddate = [Utils endOfWeek];
+    //self.startdate = [Utils startOfWeek];
+    //self.enddate = [Utils endOfWeek];
     
     [self queryiPadCalendar];
 }
@@ -72,9 +74,6 @@
 {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-    //store = nil;
-    //salesforceevents = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -86,8 +85,7 @@
 
 //query iCal events
 -(void)queryiPadCalendar {
-    //NSDate *startDate = [Utils startOfWeek];
-    //NSDate *endDate = [Utils endOfWeek];
+
     // Create the predicate.
     NSPredicate *predicate = [store predicateForEventsWithStartDate:[self startdate] endDate:[self enddate] calendars:nil];
     
@@ -122,7 +120,6 @@
             continue;
         }
         //if the last activity of the last day in the week array is already there, add this activity to that day
-        //Day *compareday = [week objectForKey:dayheader];
         if([week objectForKey:dayheader]) {
             [[week objectForKey:dayheader] addEvent:ev];
         }
@@ -138,34 +135,49 @@
     
     //also fetch the events from Salesforce
     //query salesforce for Events in the same interval
-    ZKUserInfo *uinfo = [[FDCServerSwitchboard switchboard] userInfo];
+    ZKSforceClient *client = [[SFDC sharedInstance] client];
+    ZKUserInfo *uinfo =  [client currentUserInfo];
     
     NSString *userid = [uinfo userId];
     NSString *activitiesquery = [[NSString alloc ] initWithFormat:@"select Id, Subject, ActivityDateTime from Event where OwnerId ='%@' and ActivityDate >=%@ and ActivityDate <=%@ order by StartDateTime limit 200", userid, [Utils formatDateAsString:[self startdate]], [Utils formatDateAsString:[self enddate]]];
 
-    //NSLog(@"Querying for : %@", activitiesquery);
-    [[self salesforceevents]removeAllObjects];
+
     
-    [[FDCServerSwitchboard switchboard] query:activitiesquery target:self selector:@selector(queryResult:error:context:) context:nil];
+    [[self salesforceeventkeys]removeAllObjects];
+    [[self salesforceevents] removeAllObjects];
     
-    //[self.tableview reloadData];
+    
+    //@try {
+    
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        ZKQueryResult *result = [client query:activitiesquery];
+         dispatch_async(dispatch_get_main_queue(), ^(void){
+             //drop them in the salesforce eventkeys set. We'll use this to compare against the iPad calendar events
+             for(ZKSObject *sfdcEvent in [result records]) {
+                 //let's create a fake key to compare : startdatetimeinutc_subject
+                 NSString *eventkey = [[[NSString alloc ] initWithFormat:@"%@_%@", [sfdcEvent fieldValue:@"ActivityDateTime"], [sfdcEvent fieldValue:@"Subject"]] autorelease];
+                 [[self salesforceeventkeys] addObject:eventkey];
+                 //drop those events in the dictionary
+                 [salesforceevents setObject:sfdcEvent forKey:eventkey];
+             }
+             [self.tableview reloadData];
+        });
+    });
+    
+    /*}
+    @catch (NSException *exception) {
+        UIAlertView *alert = [[UIAlertView alloc]
+                              initWithTitle: @"Error"
+                              message: [exception description]
+                              delegate: nil
+                              cancelButtonTitle:@"OK"
+                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+    }*/
+    
     [activitiesquery release];
-}
-
-
-- (void)queryResult:(ZKQueryResult *)result error:(NSError *)error context:(id)context
-{
-    //NSLog(@"Error description %@", [error description]);
-    
-    //drop them in the salesforce events set. We'll use this to compare against the iPad calendar events
-    for(ZKSObject *sfdcEvent in [result records]) {
-        //let's create a fake key to compare : startdatetimeinutc_subject
-        NSString *eventkey = [[NSString alloc ] initWithFormat:@"%@_%@", [sfdcEvent fieldValue:@"ActivityDateTime"], [sfdcEvent fieldValue:@"Subject"]];
-        //NSLog(@"Added eventkey : %@", eventkey);
-        [[self salesforceevents] addObject:eventkey];
-        [eventkey release];
-    }
-    [self.tableview reloadData];
 }
 
 
@@ -204,7 +216,7 @@
     //[[[week objectForKey:dayheader] events] count];
     
     // Return the number of rows in the section.
-    return [[[week objectForKey:dayheader] events] count];;
+    return [[[week objectForKey:dayheader] events] count];
 }
 
 
@@ -248,12 +260,7 @@
     
     
     //detect which events are already in salesforce
-    
-    //NSLog(@"salesforceevents : %@", [self salesforceevents]);
-    
-    //NSLog(@"Matching for : %@", localkey); 
-    
-    if([[self salesforceevents] member:localkey] != nil) {
+    if([[self salesforceeventkeys] member:localkey] != nil) {
         UIImage *alreadysyncedimage = [UIImage imageNamed:@"datePicker16.gif"];
         cell.imageView.image = alreadysyncedimage;
     }
@@ -262,34 +269,12 @@
     }
     
     
-    //set the OK image
-    /*
-    UIImage *okimage = [UIImage imageNamed:@"Ok20x20.png"];
-    UIImage *halfokimage = [UIImage imageNamed:@"OkGray20x20.png"];
-    UIImage *notokimage = [UIImage imageNamed:@"button_cancel20x20.png"];
-    NSString *whatid = [activity fieldValue:@"WhatId"];
-    NSString *type = [activity fieldValue:@"Type"];
-    
-    if([whatid length] == 0 && [type length] == 0) {
-        cell.imageView.image = notokimage;
-    }
-    if([whatid length] != 0 || [type length] != 0 ) {
-        cell.imageView.image = halfokimage;
-    }
-    if([whatid length] != 0 && [type length] != 0 ) {
-        cell.imageView.image = okimage;
-    }*/
-    
-    
-    
-    
-    
-    
     [localkey release];
     [activitytime release];
     [dtf release];
     return cell;
 }
+
 
 
 /*

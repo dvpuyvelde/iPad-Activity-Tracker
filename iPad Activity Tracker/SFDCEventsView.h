@@ -29,6 +29,6 @@
 
 - (IBAction)changeWeek:(id)sender;
 -(void)queryForActivities;
-//-(void)queryForSubscribedOpportunities;
+-(void)setupGroupedTableData:(ZKQueryResult*) result;
 
 @end
