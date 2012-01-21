@@ -12,6 +12,7 @@
 #import "SFDCEventsView.h"
 #import "SFDCEventDetailViewController.h"
 #import "CalendarViewController.h"
+#import "AllEventsViewController.h"
 #import "ZKSforce.h"
 #import "SimpleKeychain.h"
 #import "ZKSObject.h"
@@ -79,9 +80,16 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
     [calendarview setEnddate:[Utils endOfWeek]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ipadeventselected:) name:@"IPADEVENTSELECTED" object:calendarview];
     
+    //All Events View left (iPad and Salesforce events shown together)
+    AllEventsViewController *alleventsview = [[[AllEventsViewController alloc] initWithNibName:@"AllEventsViewController" bundle:nil] autorelease];
+    [alleventsview setTitle:@"All Events"];
+    [[alleventsview tabBarItem] setImage:[UIImage imageNamed:@"openactivity32.png"]];
+    [alleventsview setStartdate:[Utils startOfWeek]];
+    [alleventsview setEnddate:[Utils endOfWeek]];
+    
     //left tab bar
     UITabBarController *tabbarcontroller = [[[UITabBarController alloc] init] autorelease];
-    tabbarcontroller.viewControllers = [NSArray arrayWithObjects:sfdceventsview, calendarview, nil];
+    tabbarcontroller.viewControllers = [NSArray arrayWithObjects:alleventsview, sfdceventsview, calendarview, nil];
     
     
     //Main SFDC Event detail view

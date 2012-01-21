@@ -12,6 +12,8 @@
 		E602621C148AAE76000AEF45 /* openactivity32.png in Resources */ = {isa = PBXBuildFile; fileRef = E602621B148AAE76000AEF45 /* openactivity32.png */; };
 		E602621F148B6F41000AEF45 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E602621E148B6F41000AEF45 /* Utils.m */; };
 		E6026222148B7107000AEF45 /* Day.m in Sources */ = {isa = PBXBuildFile; fileRef = E6026221148B7107000AEF45 /* Day.m */; };
+		E60CBF8E14BCBAB700EB7A71 /* AllEventsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E60CBF8D14BCBAB600EB7A71 /* AllEventsViewController.m */; };
+		E60CBF9314BCCFDD00EB7A71 /* AllEventsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E60CBF9214BCCFDD00EB7A71 /* AllEventsViewController.xib */; };
 		E66A312514B1F13100345C9F /* button_cancel20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = E66A312214B1F13100345C9F /* button_cancel20x20.png */; };
 		E66A312614B1F13100345C9F /* Ok20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = E66A312314B1F13100345C9F /* Ok20x20.png */; };
 		E66A312714B1F13100345C9F /* OkGray20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = E66A312414B1F13100345C9F /* OkGray20x20.png */; };
@@ -27,6 +29,7 @@
 		E66B0B911472FD1D00BBA686 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E66B0B901472FD1D00BBA686 /* AppDelegate.m */; };
 		E66B0C2A147300C000BBA686 /* LoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = E66B0C28147300C000BBA686 /* LoginView.m */; };
 		E66B0C2B147300C000BBA686 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E66B0C29147300C000BBA686 /* LoginView.xib */; };
+		E672A9AD14BDCCA60091FA32 /* ATEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = E672A9AC14BDCCA60091FA32 /* ATEvent.m */; };
 		E67A7AD0149F58DA00C9164A /* datePicker16.gif in Resources */ = {isa = PBXBuildFile; fileRef = E67A7ACF149F58DA00C9164A /* datePicker16.gif */; };
 		E67A7B2814A13F2D00C9164A /* zkAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = E67A7AE014A13F2D00C9164A /* zkAuthentication.m */; };
 		E67A7B2914A13F2D00C9164A /* zkBaseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E67A7AE214A13F2D00C9164A /* zkBaseClient.m */; };
@@ -91,6 +94,9 @@
 		E602621E148B6F41000AEF45 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		E6026220148B7107000AEF45 /* Day.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Day.h; sourceTree = "<group>"; };
 		E6026221148B7107000AEF45 /* Day.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Day.m; sourceTree = "<group>"; };
+		E60CBF8C14BCBAB600EB7A71 /* AllEventsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AllEventsViewController.h; sourceTree = "<group>"; };
+		E60CBF8D14BCBAB600EB7A71 /* AllEventsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AllEventsViewController.m; sourceTree = "<group>"; };
+		E60CBF9214BCCFDD00EB7A71 /* AllEventsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AllEventsViewController.xib; sourceTree = "<group>"; };
 		E66A312214B1F13100345C9F /* button_cancel20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_cancel20x20.png; sourceTree = "<group>"; };
 		E66A312314B1F13100345C9F /* Ok20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ok20x20.png; sourceTree = "<group>"; };
 		E66A312414B1F13100345C9F /* OkGray20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OkGray20x20.png; sourceTree = "<group>"; };
@@ -112,6 +118,8 @@
 		E66B0C27147300C000BBA686 /* LoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginView.h; sourceTree = "<group>"; };
 		E66B0C28147300C000BBA686 /* LoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginView.m; sourceTree = "<group>"; };
 		E66B0C29147300C000BBA686 /* LoginView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		E672A9AB14BDCCA60091FA32 /* ATEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATEvent.h; sourceTree = "<group>"; };
+		E672A9AC14BDCCA60091FA32 /* ATEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATEvent.m; sourceTree = "<group>"; };
 		E67A7ACF149F58DA00C9164A /* datePicker16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = datePicker16.gif; sourceTree = "<group>"; };
 		E67A7ADF14A13F2D00C9164A /* zkAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zkAuthentication.h; sourceTree = "<group>"; };
 		E67A7AE014A13F2D00C9164A /* zkAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zkAuthentication.m; sourceTree = "<group>"; };
@@ -227,9 +235,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E60CBF9414BCD08700EB7A71 /* Utility Classes */ = {
+			isa = PBXGroup;
+			children = (
+				E67A7B6F14A22F8200C9164A /* SFDC.h */,
+				E67A7B7014A22F8200C9164A /* SFDC.m */,
+				E67A7B7314A23A4700C9164A /* NSURL+Additions.h */,
+				E67A7B7414A23A4700C9164A /* NSURL+Additions.m */,
+				E602621D148B6F41000AEF45 /* Utils.h */,
+				E602621E148B6F41000AEF45 /* Utils.m */,
+				E6026220148B7107000AEF45 /* Day.h */,
+				E6026221148B7107000AEF45 /* Day.m */,
+				E67A7B7614A23DEE00C9164A /* SimpleKeychain.h */,
+				E67A7B7714A23DEE00C9164A /* SimpleKeychain.m */,
+				E672A9AB14BDCCA60091FA32 /* ATEvent.h */,
+				E672A9AC14BDCCA60091FA32 /* ATEvent.m */,
+			);
+			name = "Utility Classes";
+			sourceTree = "<group>";
+		};
 		E66A313014B372C100345C9F /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				E67A7B6D14A228C100C9164A /* linenBG.png */,
+				E67A7ACF149F58DA00C9164A /* datePicker16.gif */,
+				E602621B148AAE76000AEF45 /* openactivity32.png */,
 				E66A312914B1F53300345C9F /* Icon-72.png */,
 				E66A312A14B1F53300345C9F /* Icon-Small-50.png */,
 				E66A312214B1F13100345C9F /* button_cancel20x20.png */,
@@ -274,44 +304,30 @@
 		E66B0B861472FD1D00BBA686 /* iPad Activity Tracker */ = {
 			isa = PBXGroup;
 			children = (
-				E66A313014B372C100345C9F /* Images */,
-				E67A7B7314A23A4700C9164A /* NSURL+Additions.h */,
-				E67A7B7414A23A4700C9164A /* NSURL+Additions.m */,
-				E67A7B6D14A228C100C9164A /* linenBG.png */,
-				E67A7ACF149F58DA00C9164A /* datePicker16.gif */,
-				E602621B148AAE76000AEF45 /* openactivity32.png */,
+				E6FF03B914CB1DA60081F708 /* Origs */,
+				E60CBF8C14BCBAB600EB7A71 /* AllEventsViewController.h */,
+				E60CBF8D14BCBAB600EB7A71 /* AllEventsViewController.m */,
+				E60CBF9214BCCFDD00EB7A71 /* AllEventsViewController.xib */,
 				E66B0B8F1472FD1D00BBA686 /* AppDelegate.h */,
 				E66B0B901472FD1D00BBA686 /* AppDelegate.m */,
 				E66B0C27147300C000BBA686 /* LoginView.h */,
 				E66B0C28147300C000BBA686 /* LoginView.m */,
 				E66B0C29147300C000BBA686 /* LoginView.xib */,
-				E686A67B1473078600F0BE47 /* SFDCEventsView.h */,
-				E686A67C1473078600F0BE47 /* SFDCEventsView.m */,
-				E686A67D1473078600F0BE47 /* SFDCEventsView.xib */,
 				E6A2FA74148D1045005728CE /* SFDCEventDetailViewController.h */,
 				E6A2FA75148D1045005728CE /* SFDCEventDetailViewController.m */,
 				E6A2FA76148D1045005728CE /* SFDCEventDetailViewController.xib */,
-				E6026212148AA96B000AEF45 /* CalendarViewController.h */,
-				E6026213148AA96B000AEF45 /* CalendarViewController.m */,
-				E6026214148AA96B000AEF45 /* CalendarViewController.xib */,
 				E6E0DBE214A3970100A3ED77 /* OpportunitySelectController.h */,
 				E6E0DBE314A3970100A3ED77 /* OpportunitySelectController.m */,
 				E6E0DBE414A3970100A3ED77 /* OpportunitySelectController.xib */,
 				E6E0DBEC14A397DE00A3ED77 /* AccountSelectController.h */,
 				E6E0DBED14A397DE00A3ED77 /* AccountSelectController.m */,
 				E6E0DBEE14A397DE00A3ED77 /* AccountSelectController.xib */,
-				E602621D148B6F41000AEF45 /* Utils.h */,
-				E602621E148B6F41000AEF45 /* Utils.m */,
-				E6026220148B7107000AEF45 /* Day.h */,
-				E6026221148B7107000AEF45 /* Day.m */,
-				E66B0B871472FD1D00BBA686 /* Supporting Files */,
-				E67A7B6F14A22F8200C9164A /* SFDC.h */,
-				E67A7B7014A22F8200C9164A /* SFDC.m */,
-				E67A7B7614A23DEE00C9164A /* SimpleKeychain.h */,
-				E67A7B7714A23DEE00C9164A /* SimpleKeychain.m */,
 				E66ADB0914A29A750015D074 /* TypeSelectController.h */,
 				E66ADB0A14A29A750015D074 /* TypeSelectController.m */,
 				E66ADB0B14A29A750015D074 /* TypeSelectController.xib */,
+				E60CBF9414BCD08700EB7A71 /* Utility Classes */,
+				E66A313014B372C100345C9F /* Images */,
+				E66B0B871472FD1D00BBA686 /* Supporting Files */,
 			);
 			path = "iPad Activity Tracker";
 			sourceTree = "<group>";
@@ -408,6 +424,19 @@
 			path = "iPad Activity Tracker/zkSforce";
 			sourceTree = "<group>";
 		};
+		E6FF03B914CB1DA60081F708 /* Origs */ = {
+			isa = PBXGroup;
+			children = (
+				E6026212148AA96B000AEF45 /* CalendarViewController.h */,
+				E6026213148AA96B000AEF45 /* CalendarViewController.m */,
+				E6026214148AA96B000AEF45 /* CalendarViewController.xib */,
+				E686A67B1473078600F0BE47 /* SFDCEventsView.h */,
+				E686A67C1473078600F0BE47 /* SFDCEventsView.m */,
+				E686A67D1473078600F0BE47 /* SFDCEventsView.xib */,
+			);
+			name = Origs;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -476,6 +505,7 @@
 				E66A312714B1F13100345C9F /* OkGray20x20.png in Resources */,
 				E66A312B14B1F53300345C9F /* Icon-72.png in Resources */,
 				E66A312C14B1F53300345C9F /* Icon-Small-50.png in Resources */,
+				E60CBF9314BCCFDD00EB7A71 /* AllEventsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +566,8 @@
 				E66ADB0C14A29A750015D074 /* TypeSelectController.m in Sources */,
 				E6E0DBE514A3970100A3ED77 /* OpportunitySelectController.m in Sources */,
 				E6E0DBEF14A397DE00A3ED77 /* AccountSelectController.m in Sources */,
+				E60CBF8E14BCBAB700EB7A71 /* AllEventsViewController.m in Sources */,
+				E672A9AD14BDCCA60091FA32 /* ATEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -31,7 +31,7 @@
     [formatter setDateFormat:@"yyyy-MM-dd"];
     [timeformatter setDateFormat:@"HH:mm:ss"];//THH:mm:ss.000Z
     //NSLog(@"time string : %@", [timeformatter stringFromDate:date]);
-    NSString *fullstring = [[NSString alloc] initWithFormat:@"%@T%@.000Z", [formatter stringFromDate:date], [timeformatter stringFromDate:date]];
+    NSString *fullstring = [[[NSString alloc] initWithFormat:@"%@T%@.000Z", [formatter stringFromDate:date], [timeformatter stringFromDate:date]] autorelease];
     //Get the string date
     return fullstring;
 }
