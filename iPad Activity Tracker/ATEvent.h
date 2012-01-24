@@ -13,6 +13,7 @@
 @interface ATEvent : NSObject {
     NSString *comparekey;
     NSString *sfdcid;
+    NSString *ekeventid;
     NSDate *startdate;
     NSDate *enddate;
     NSString *duration;
@@ -26,6 +27,7 @@
 
 @property (nonatomic, retain) NSString *comparekey;
 @property (nonatomic, retain) NSString *sfdcid;
+@property (nonatomic, retain) NSString *ekeventid;
 @property (nonatomic, retain) NSDate *startdate;
 @property (nonatomic, retain) NSDate *enddate;
 @property (nonatomic, retain) NSString *duration;

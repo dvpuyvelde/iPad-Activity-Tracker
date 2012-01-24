@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Eventkit/EventKit.h>
+#import "ATEvent.h"
 
 @interface AllEventsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
     EKEventStore *store;
@@ -19,6 +20,7 @@
 //    NSMutableSet *salesforceeventkeys;
 //    NSMutableDictionary *salesforceevents;
     EKEvent *selectedipadevent;
+    ATEvent *selectedevent;
     NSMutableDictionary *allevents;
 }
 
@@ -29,6 +31,7 @@
 @property (nonatomic, retain) NSDate *enddate;
 @property (retain, nonatomic) IBOutlet UITableView *tableview;
 @property (retain, nonatomic) EKEvent *selectedipadevent;
+@property (retain, nonatomic) ATEvent *selectedevent;
 //@property (retain) NSMutableSet *salesforceeventkeys;
 //@property (retain, nonatomic) NSMutableDictionary *salesforceevents;
 @property (retain, atomic) NSMutableDictionary *allevents;

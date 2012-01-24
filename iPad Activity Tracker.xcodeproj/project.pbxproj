@@ -77,6 +77,15 @@
 		E6A2FA78148D1045005728CE /* SFDCEventDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6A2FA76148D1045005728CE /* SFDCEventDetailViewController.xib */; };
 		E6BB1E8914A2445E000C0F07 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6BB1E8814A2445E000C0F07 /* Security.framework */; };
 		E6D5A9E6149E300A0084DA2B /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E6D5A9E5149E300A0084DA2B /* EventKit.framework */; };
+		E6D99C0614CF08A300016F44 /* Calendar.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D99C0514CF08A300016F44 /* Calendar.png */; };
+		E6D99C0914CF0C9A00016F44 /* google-calendar-icon32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D99C0814CF0C9A00016F44 /* google-calendar-icon32x32.png */; };
+		E6D99C0B14CF0F0000016F44 /* SFDCLogo2-small.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E6D99C0A14CF0F0000016F44 /* SFDCLogo2-small.jpg */; };
+		E6D99C0D14CF125600016F44 /* Calendar16.png in Resources */ = {isa = PBXBuildFile; fileRef = E6D99C0C14CF125600016F44 /* Calendar16.png */; };
+		E6D99C0F14CF14FF00016F44 /* datePicker16ok.gif in Resources */ = {isa = PBXBuildFile; fileRef = E6D99C0E14CF14FF00016F44 /* datePicker16ok.gif */; };
+		E6D99C1114CF160F00016F44 /* datePicker16halfok.gif in Resources */ = {isa = PBXBuildFile; fileRef = E6D99C1014CF160F00016F44 /* datePicker16halfok.gif */; };
+		E6D99C1314CF1AB400016F44 /* help.html in Resources */ = {isa = PBXBuildFile; fileRef = E6D99C1214CF1AB300016F44 /* help.html */; };
+		E6DB09E214CB240900D1FDB4 /* EventDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6DB09E014CB240900D1FDB4 /* EventDetailViewController.m */; };
+		E6DB09E314CB240900D1FDB4 /* EventDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6DB09E114CB240900D1FDB4 /* EventDetailViewController.xib */; };
 		E6E0DBE514A3970100A3ED77 /* OpportunitySelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6E0DBE314A3970100A3ED77 /* OpportunitySelectController.m */; };
 		E6E0DBE614A3970100A3ED77 /* OpportunitySelectController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E6E0DBE414A3970100A3ED77 /* OpportunitySelectController.xib */; };
 		E6E0DBEF14A397DE00A3ED77 /* AccountSelectController.m in Sources */ = {isa = PBXBuildFile; fileRef = E6E0DBED14A397DE00A3ED77 /* AccountSelectController.m */; };
@@ -209,6 +218,16 @@
 		E6A2FA76148D1045005728CE /* SFDCEventDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SFDCEventDetailViewController.xib; path = ../SFDCEventDetailViewController.xib; sourceTree = "<group>"; };
 		E6BB1E8814A2445E000C0F07 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		E6D5A9E5149E300A0084DA2B /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		E6D99C0514CF08A300016F44 /* Calendar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Calendar.png; sourceTree = "<group>"; };
+		E6D99C0814CF0C9A00016F44 /* google-calendar-icon32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "google-calendar-icon32x32.png"; sourceTree = "<group>"; };
+		E6D99C0A14CF0F0000016F44 /* SFDCLogo2-small.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "SFDCLogo2-small.jpg"; sourceTree = "<group>"; };
+		E6D99C0C14CF125600016F44 /* Calendar16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Calendar16.png; sourceTree = "<group>"; };
+		E6D99C0E14CF14FF00016F44 /* datePicker16ok.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = datePicker16ok.gif; sourceTree = "<group>"; };
+		E6D99C1014CF160F00016F44 /* datePicker16halfok.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = datePicker16halfok.gif; sourceTree = "<group>"; };
+		E6D99C1214CF1AB300016F44 /* help.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = help.html; sourceTree = "<group>"; };
+		E6DB09DB14CB236100D1FDB4 /* EventDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailViewController.h; sourceTree = "<group>"; };
+		E6DB09E014CB240900D1FDB4 /* EventDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailViewController.m; sourceTree = "<group>"; };
+		E6DB09E114CB240900D1FDB4 /* EventDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EventDetailViewController.xib; sourceTree = "<group>"; };
 		E6E0DBE214A3970100A3ED77 /* OpportunitySelectController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpportunitySelectController.h; sourceTree = "<group>"; };
 		E6E0DBE314A3970100A3ED77 /* OpportunitySelectController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpportunitySelectController.m; sourceTree = "<group>"; };
 		E6E0DBE414A3970100A3ED77 /* OpportunitySelectController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OpportunitySelectController.xib; sourceTree = "<group>"; };
@@ -258,7 +277,13 @@
 			isa = PBXGroup;
 			children = (
 				E67A7B6D14A228C100C9164A /* linenBG.png */,
+				E6D99C0514CF08A300016F44 /* Calendar.png */,
+				E6D99C0A14CF0F0000016F44 /* SFDCLogo2-small.jpg */,
+				E6D99C0814CF0C9A00016F44 /* google-calendar-icon32x32.png */,
 				E67A7ACF149F58DA00C9164A /* datePicker16.gif */,
+				E6D99C0E14CF14FF00016F44 /* datePicker16ok.gif */,
+				E6D99C1014CF160F00016F44 /* datePicker16halfok.gif */,
+				E6D99C0C14CF125600016F44 /* Calendar16.png */,
 				E602621B148AAE76000AEF45 /* openactivity32.png */,
 				E66A312914B1F53300345C9F /* Icon-72.png */,
 				E66A312A14B1F53300345C9F /* Icon-Small-50.png */,
@@ -308,14 +333,14 @@
 				E60CBF8C14BCBAB600EB7A71 /* AllEventsViewController.h */,
 				E60CBF8D14BCBAB600EB7A71 /* AllEventsViewController.m */,
 				E60CBF9214BCCFDD00EB7A71 /* AllEventsViewController.xib */,
+				E6DB09DB14CB236100D1FDB4 /* EventDetailViewController.h */,
+				E6DB09E014CB240900D1FDB4 /* EventDetailViewController.m */,
+				E6DB09E114CB240900D1FDB4 /* EventDetailViewController.xib */,
 				E66B0B8F1472FD1D00BBA686 /* AppDelegate.h */,
 				E66B0B901472FD1D00BBA686 /* AppDelegate.m */,
 				E66B0C27147300C000BBA686 /* LoginView.h */,
 				E66B0C28147300C000BBA686 /* LoginView.m */,
 				E66B0C29147300C000BBA686 /* LoginView.xib */,
-				E6A2FA74148D1045005728CE /* SFDCEventDetailViewController.h */,
-				E6A2FA75148D1045005728CE /* SFDCEventDetailViewController.m */,
-				E6A2FA76148D1045005728CE /* SFDCEventDetailViewController.xib */,
 				E6E0DBE214A3970100A3ED77 /* OpportunitySelectController.h */,
 				E6E0DBE314A3970100A3ED77 /* OpportunitySelectController.m */,
 				E6E0DBE414A3970100A3ED77 /* OpportunitySelectController.xib */,
@@ -328,6 +353,7 @@
 				E60CBF9414BCD08700EB7A71 /* Utility Classes */,
 				E66A313014B372C100345C9F /* Images */,
 				E66B0B871472FD1D00BBA686 /* Supporting Files */,
+				E6D99C1214CF1AB300016F44 /* help.html */,
 			);
 			path = "iPad Activity Tracker";
 			sourceTree = "<group>";
@@ -427,6 +453,9 @@
 		E6FF03B914CB1DA60081F708 /* Origs */ = {
 			isa = PBXGroup;
 			children = (
+				E6A2FA74148D1045005728CE /* SFDCEventDetailViewController.h */,
+				E6A2FA75148D1045005728CE /* SFDCEventDetailViewController.m */,
+				E6A2FA76148D1045005728CE /* SFDCEventDetailViewController.xib */,
 				E6026212148AA96B000AEF45 /* CalendarViewController.h */,
 				E6026213148AA96B000AEF45 /* CalendarViewController.m */,
 				E6026214148AA96B000AEF45 /* CalendarViewController.xib */,
@@ -506,6 +535,14 @@
 				E66A312B14B1F53300345C9F /* Icon-72.png in Resources */,
 				E66A312C14B1F53300345C9F /* Icon-Small-50.png in Resources */,
 				E60CBF9314BCCFDD00EB7A71 /* AllEventsViewController.xib in Resources */,
+				E6DB09E314CB240900D1FDB4 /* EventDetailViewController.xib in Resources */,
+				E6D99C0614CF08A300016F44 /* Calendar.png in Resources */,
+				E6D99C0914CF0C9A00016F44 /* google-calendar-icon32x32.png in Resources */,
+				E6D99C0B14CF0F0000016F44 /* SFDCLogo2-small.jpg in Resources */,
+				E6D99C0D14CF125600016F44 /* Calendar16.png in Resources */,
+				E6D99C0F14CF14FF00016F44 /* datePicker16ok.gif in Resources */,
+				E6D99C1114CF160F00016F44 /* datePicker16halfok.gif in Resources */,
+				E6D99C1314CF1AB400016F44 /* help.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -568,6 +605,7 @@
 				E6E0DBEF14A397DE00A3ED77 /* AccountSelectController.m in Sources */,
 				E60CBF8E14BCBAB700EB7A71 /* AllEventsViewController.m in Sources */,
 				E672A9AD14BDCCA60091FA32 /* ATEvent.m in Sources */,
+				E6DB09E214CB240900D1FDB4 /* EventDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

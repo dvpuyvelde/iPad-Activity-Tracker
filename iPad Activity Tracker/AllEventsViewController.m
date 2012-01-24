@@ -23,6 +23,7 @@
 @synthesize enddate;
 @synthesize tableview;
 @synthesize selectedipadevent;
+@synthesize selectedevent;
 //@synthesize salesforceeventkeys;
 //@synthesize salesforceevents;
 @synthesize allevents;
@@ -122,7 +123,7 @@
     ZKUserInfo *uinfo =  [client currentUserInfo];
     
     NSString *userid = [uinfo userId];
-    NSString *activitiesquery = [[NSString alloc ] initWithFormat:@"select Id, Subject, ActivityDateTime, EndDateTime, Location, What.Name, WhatId, StartDateTime, DurationInMinutes, Description from Event where OwnerId ='%@' and ActivityDate >=%@ and ActivityDate <=%@ order by StartDateTime limit 200", userid, [Utils formatDateAsString:[self startdate]], [Utils formatDateAsString:[self enddate]]];
+    NSString *activitiesquery = [[NSString alloc ] initWithFormat:@"select Id, Subject, ActivityDateTime, EndDateTime, Location, What.Name, WhatId, StartDateTime, DurationInMinutes, Description, Type from Event where OwnerId ='%@' and ActivityDate >=%@ and ActivityDate <=%@ order by StartDateTime limit 200", userid, [Utils formatDateAsString:[self startdate]], [Utils formatDateAsString:[self enddate]]];
     
     @try {
         ZKQueryResult *result = [client query:activitiesquery];
@@ -275,10 +276,23 @@
     //detect which events are already in salesforce
     if([ev isSFDCEvent]) {
         UIImage *alreadysyncedimage = [UIImage imageNamed:@"datePicker16.gif"];
+        UIImage *okimage = [UIImage imageNamed:@"datePicker16ok.gif"];
+        UIImage *halfokimage = [UIImage imageNamed:@"datePicker16halfok.gif"];
+
         cell.imageView.image = alreadysyncedimage;
+        if([[ev whatid] length] == 0 && [[ev type] length] == 0) {
+            cell.imageView.image = alreadysyncedimage;
+        }
+        if([[ev whatid] length] != 0 || [[ev type] length] != 0 ) {
+            cell.imageView.image = halfokimage;
+        }
+        if([[ev whatid] length] != 0 && [[ev type] length] != 0 ) {
+            cell.imageView.image = okimage;
+        }
     }
     else {
-        cell.imageView.image = nil;
+        UIImage *calimage = [UIImage imageNamed:@"Calendar16.png"];
+        cell.imageView.image = calimage;
     }
     
     
@@ -324,16 +338,16 @@
     //week holds Day objects, Days hold event objects
     NSString *dayheader = [dayheaders objectAtIndex:[indexPath section]];
     Day *d = [week objectForKey:dayheader];
-    EKEvent *event = [d.events objectAtIndex:[indexPath row]];
-    selectedipadevent = event;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"IPADEVENTSELECTED" object:self];
+    //EKEvent *event = [d.events objectAtIndex:[indexPath row]];
+    ATEvent *event = [d.events objectAtIndex:[indexPath row]];
+    selectedevent = event;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"EVENTSELECTED" object:self];
 }
 
 
 //A notification will be dispatched from the detail view to the app delegate, calling this method when an ipad event is saved to salesforce
 //ipad event saved to salesforce
--(void)ipadeventsaved:(NSNotification *)notification {
-    
+-(void)eventsaved:(NSNotification *)notification {
     [self queryForEvents];
     [[self tableview] reloadData];
 }

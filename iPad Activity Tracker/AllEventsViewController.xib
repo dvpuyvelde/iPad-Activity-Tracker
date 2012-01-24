@@ -73,10 +73,6 @@
 							<reference ref="4"/>
 						</array>
 						<bool key="IBMomentary">YES</bool>
-						<object class="NSColor" key="IBTintColor">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MSAwIDAAA</bytes>
-						</object>
 					</object>
 					<object class="IBUITableView" id="192435307">
 						<reference key="NSNextResponder" ref="766721923"/>

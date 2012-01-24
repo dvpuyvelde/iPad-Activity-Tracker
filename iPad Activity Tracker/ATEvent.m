@@ -12,7 +12,7 @@
 
 @implementation ATEvent
 
-@synthesize subject, startdate, enddate, what, type, description, location, whatid, sfdcid, duration, comparekey;
+@synthesize subject, startdate, enddate, what, type, description, location, whatid, sfdcid, ekeventid, duration, comparekey;
 
 /*
  is this an iPad only event (no sfdc id)
@@ -34,6 +34,7 @@
  */
 -(void)withEKEvent:(EKEvent *)ekevent {
     
+    self.ekeventid = [ekevent eventIdentifier];
     //calculate the comparekey (ipad and sfdc events are compared via a 'fake' key : startdatetime_subject
     NSString *trimmedtitle = [[ekevent title] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     self.comparekey = [[NSString alloc] initWithFormat:@"%@_%@", [Utils formatDateTimeAsStringUTC:[ekevent startDate]], trimmedtitle];
@@ -55,23 +56,21 @@
  populate this ATEvent from a ZKSobject ( = SFDC object of type 'Event' )
  */
 -(void)withSFDCEvent:(ZKSObject *)sfdcevent {
+    self.sfdcid = [sfdcevent fieldValue:@"Id"];
     //let's create a fake key to compare : startdatetimeinutc_subject
     NSString *eventkey = [[[NSString alloc ] initWithFormat:@"%@_%@", [sfdcevent fieldValue:@"ActivityDateTime"], [sfdcevent fieldValue:@"Subject"]] autorelease];
     self.comparekey = eventkey;
-    self.sfdcid = [sfdcevent fieldValue:@"Id"];
     self.startdate = [sfdcevent dateTimeValue:@"ActivityDateTime"];
     self.enddate = [sfdcevent dateTimeValue:@"EndDateTime"];
     self.subject = [sfdcevent fieldValue:@"Subject"];
     self.location = [sfdcevent fieldValue:@"Location"];
     self.description = [sfdcevent fieldValue:@"Description"];
     self.duration = [sfdcevent fieldValue:@"DurationInMinutes"];
-    self.what = [sfdcevent fieldValue:@"What"];
+    self.what = [[sfdcevent fieldValue:@"What"] fieldValue:@"Name"];
     self.whatid = [sfdcevent fieldValue:@"WhatId"];
+    self.type = [sfdcevent fieldValue:@"Type"];
     
     [eventkey release];
 }
-
-
-
 
 @end

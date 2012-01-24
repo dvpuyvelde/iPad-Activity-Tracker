@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import "FDCOAuthViewController.h"
-#import "SFDCEventDetailViewController.h"
+#import "AllEventsViewController.h"
+#import "EventDetailViewController.h"
 #import "ZKQueryResult.h"
 #import "ZKUserInfo.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 //@property (strong, nonatomic) FDCOAuthViewController *oAuthViewController;
-@property (strong, nonatomic) SFDCEventDetailViewController *_sfdcEventDetailViewController;
+@property (strong, nonatomic) EventDetailViewController *_eventDetailViewController;
+@property (strong, nonatomic) AllEventsViewController *_alleventsViewController;
 
 -(void)startApp;
 -(void)logout;

@@ -10,7 +10,7 @@
 
 #import "LoginView.h"
 #import "SFDCEventsView.h"
-#import "SFDCEventDetailViewController.h"
+#import "EventDetailViewController.h"
 #import "CalendarViewController.h"
 #import "AllEventsViewController.h"
 #import "ZKSforce.h"
@@ -19,7 +19,6 @@
 #import "SFDC.h"
 #import "Utils.h"
 
-//#define kSFOAuthConsumerKey @"3MVG99OxTyEMCQ3hRUGLgJAnih3VIVuDxxlXj88D.ruS45yi.z0rQG_h0IPlvc66hb3PZ3xNrk3dV1iqRzvsa"
 
 static NSString *OAUTH_CLIENTID = @"3MVG99OxTyEMCQ3hRUGLgJAnih3VIVuDxxlXj88D.ruS45yi.z0rQG_h0IPlvc66hb3PZ3xNrk3dV1iqRzvsa";
 static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
@@ -28,15 +27,15 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
 
 @synthesize window = _window;
 @synthesize splitViewController = _splitViewController;
-//@synthesize oAuthViewController;
-@synthesize _sfdcEventDetailViewController;
+@synthesize _eventDetailViewController;
+@synthesize _alleventsViewController;
 
 - (void)dealloc
 {
     [_window release];
     [_splitViewController release];
-//    [oAuthViewController release];
-    [_sfdcEventDetailViewController release];
+    [_eventDetailViewController release];
+    [_alleventsViewController release];
     [super dealloc];
 }
 
@@ -65,6 +64,7 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
 //This method will start the actual uisplitviewcontroller and child views
 -(void)startApp {
    
+    /*
     // Salesforce events left view
     SFDCEventsView *sfdceventsview = [[[SFDCEventsView alloc] initWithNibName:@"SFDCEventsView" bundle:nil] autorelease];
     [sfdceventsview setTitle:@"Salesforce Agenda"];
@@ -79,30 +79,35 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
     [calendarview setStartdate:[Utils startOfWeek]];
     [calendarview setEnddate:[Utils endOfWeek]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ipadeventselected:) name:@"IPADEVENTSELECTED" object:calendarview];
+    */
     
     //All Events View left (iPad and Salesforce events shown together)
     AllEventsViewController *alleventsview = [[[AllEventsViewController alloc] initWithNibName:@"AllEventsViewController" bundle:nil] autorelease];
+    [self set_alleventsViewController:alleventsview];
     [alleventsview setTitle:@"All Events"];
     [[alleventsview tabBarItem] setImage:[UIImage imageNamed:@"openactivity32.png"]];
     [alleventsview setStartdate:[Utils startOfWeek]];
     [alleventsview setEnddate:[Utils endOfWeek]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventselected:) name:@"EVENTSELECTED" object:alleventsview];
     
     //left tab bar
     UITabBarController *tabbarcontroller = [[[UITabBarController alloc] init] autorelease];
-    tabbarcontroller.viewControllers = [NSArray arrayWithObjects:alleventsview, sfdceventsview, calendarview, nil];
+    tabbarcontroller.viewControllers = [NSArray arrayWithObjects:alleventsview, nil];
     
     
     //Main SFDC Event detail view
-    SFDCEventDetailViewController *sfdcEventDetailViewController = [[SFDCEventDetailViewController alloc] initWithNibName:@"SFDCEventDetailViewController" bundle:nil];
-    [self set_sfdcEventDetailViewController:sfdcEventDetailViewController];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:@"LOGOUT" object:sfdcEventDetailViewController];
-    [[NSNotificationCenter defaultCenter] addObserver:calendarview selector:@selector(ipadeventsaved:) name:@"IPADEVENTSAVED" object:sfdcEventDetailViewController];
-    [[NSNotificationCenter defaultCenter] addObserver:sfdceventsview selector:@selector(sfdceventsaved:) name:@"SFDCEVENTSAVED" object:sfdcEventDetailViewController];
+    EventDetailViewController *eventDetailViewController = [[EventDetailViewController alloc] initWithNibName:@"EventDetailViewController" bundle:nil];
+    [self set_eventDetailViewController:eventDetailViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:@"LOGOUT" object:eventDetailViewController];
+    //[[NSNotificationCenter defaultCenter] addObserver:calendarview selector:@selector(ipadeventsaved:) name:@"IPADEVENTSAVED" object:eventDetailViewController];
+    //[[NSNotificationCenter defaultCenter] addObserver:sfdceventsview selector:@selector(sfdceventsaved:) name:@"SFDCEVENTSAVED" object:eventDetailViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:alleventsview selector:@selector(eventsaved:) name:@"EVENTSAVED" object:eventDetailViewController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sfdceventdeleted:) name:@"SFDCEVENTDELETED" object:eventDetailViewController];
     
     //assemble the views in the splitviewcontroller
     self.splitViewController = [[[UISplitViewController alloc] init] autorelease];
-    self.splitViewController.delegate = sfdcEventDetailViewController;
-    self.splitViewController.viewControllers = [NSArray arrayWithObjects:tabbarcontroller, sfdcEventDetailViewController, nil];
+    self.splitViewController.delegate = eventDetailViewController;
+    self.splitViewController.viewControllers = [NSArray arrayWithObjects:tabbarcontroller, eventDetailViewController, nil];
     self.window.rootViewController = self.splitViewController;
     [self.window makeKeyAndVisible];
     
@@ -112,12 +117,13 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
 /*
  EVENT OBSERVER METHODS
  */
+/*
 //SFDC Event
 -(void)sfdceventselected:(NSNotification *)notification {
     SFDCEventsView *eventsview = [notification object];
     ZKSObject *activity = [eventsview selectedsfdcevent];
     //NSLog(@"SFDC EVENT SELECTED : %@", [activity fieldValue:@"Subject"]);  
-    [[self _sfdcEventDetailViewController] setActivity:activity];
+    [[self _eventDetailViewController] setActivity:activity];
 }
 
 //iPad Calendar Event
@@ -125,7 +131,21 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
     CalendarViewController *eventsview = [notification object];
     EKEvent *event = [eventsview selectedipadevent];
     //NSLog(@"SFDC EVENT SELECTED : %@", [activity fieldValue:@"Subject"]);  
-    [[self _sfdcEventDetailViewController] setNewIPadEvent:event];
+    [[self _eventDetailViewController] setNewIPadEvent:event];
+}
+*/
+
+//ATEvent selected
+-(void)eventselected:(NSNotification *)notification {
+    AllEventsViewController *alleventsview = [notification object];
+    ATEvent *event = [alleventsview selectedevent];
+    [[self _eventDetailViewController] setNewEvent:event];
+}
+
+//SFDC EVENT DELETED
+-(void)sfdceventdeleted:(NSNotification*)notification {
+    [[self _alleventsViewController] queryForEvents];
+    [[[self _alleventsViewController] tableview] reloadData];
 }
 
 //log out
