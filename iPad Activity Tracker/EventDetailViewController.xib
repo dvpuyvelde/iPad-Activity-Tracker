@@ -11,17 +11,18 @@
 			<string key="NS.object.0">933</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
-			<string>IBProxyObject</string>
-			<string>IBUIButton</string>
-			<string>IBUILabel</string>
-			<string>IBUIToolbar</string>
 			<string>IBUIBarButtonItem</string>
-			<string>IBUIImageView</string>
-			<string>IBUIWebView</string>
-			<string>IBUINavigationBar</string>
+			<string>IBUIButton</string>
 			<string>IBUITextView</string>
+			<string>IBUILabel</string>
+			<string>IBUIWebView</string>
+			<string>IBProxyObject</string>
+			<string>IBUINavigationBar</string>
 			<string>IBUINavigationItem</string>
+			<string>IBUIToolbar</string>
 			<string>IBUIView</string>
+			<string>IBUIImageView</string>
+			<string>IBUIActivityIndicatorView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -140,7 +141,7 @@
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="101560703"/>
-						<object class="NSColor" key="IBUIBackgroundColor" id="1036319663">
+						<object class="NSColor" key="IBUIBackgroundColor" id="155930589">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
 						</object>
@@ -190,7 +191,7 @@
 						<string key="NSFrame">{{144, 87}, {481, 21}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="356432514"/>
+						<reference key="NSNextKeyView" ref="499388263"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<int key="IBUIContentMode">7</int>
@@ -290,12 +291,12 @@
 						<string key="NSFrameSize">{703, 44}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="935588022"/>
+						<reference key="NSNextKeyView" ref="558260054"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<array key="IBUIItems">
 							<object class="IBUINavigationItem" id="258680015">
 								<reference key="IBUINavigationBar" ref="219689138"/>
-								<string key="IBUITitle">Title</string>
+								<string key="IBUITitle"/>
 								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="230229462">
 									<string key="IBUITitle">Logout</string>
 									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -312,7 +313,6 @@
 						<string key="NSFrame">{{0, 704}, {703, 44}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -323,7 +323,7 @@
 								<reference key="IBUIToolbar" ref="101560703"/>
 								<int key="IBUISystemItemIdentifier">6</int>
 							</object>
-							<object class="IBUIBarButtonItem" id="134000835">
+							<object class="IBUIBarButtonItem" id="342023370">
 								<string key="IBUITitle">Help</string>
 								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 								<int key="IBUIStyle">1</int>
@@ -416,7 +416,7 @@
 						<reference key="IBUIFontDescription" ref="588038233"/>
 						<reference key="IBUIFont" ref="393361213"/>
 					</object>
-					<object class="IBUIImageView" id="356432514">
+					<object class="IBUIImageView" id="499388263">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{633, 58}, {50, 50}}</string>
@@ -426,17 +426,31 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 					</object>
-					<object class="IBUIWebView" id="935588022">
+					<object class="IBUIWebView" id="558260054">
 						<reference key="NSNextResponder" ref="766721923"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{8, 49}, {690, 655}}</string>
 						<reference key="NSSuperview" ref="766721923"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="816497550"/>
-						<reference key="IBUIBackgroundColor" ref="1036319663"/>
+						<reference key="IBUIBackgroundColor" ref="155930589"/>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIDataDetectorTypes">1</int>
 						<bool key="IBUIDetectsPhoneNumbers">YES</bool>
+					</object>
+					<object class="IBUIActivityIndicatorView" id="315767678">
+						<reference key="NSNextResponder" ref="766721923"/>
+						<int key="NSvFlags">-2147483356</int>
+						<string key="NSFrame">{{582, 12}, {20, 20}}</string>
+						<reference key="NSSuperview" ref="766721923"/>
+						<reference key="NSWindow"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+						<int key="IBUIStyle">2</int>
+						<object class="NSColor" key="IBUIColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
+						</object>
 					</object>
 				</array>
 				<string key="NSFrame">{{0, 20}, {703, 748}}</string>
@@ -584,7 +598,7 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">ImageCalendarTypeOutlet</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="356432514"/>
+						<reference key="destination" ref="499388263"/>
 					</object>
 					<int key="connectionID">51</int>
 				</object>
@@ -592,9 +606,17 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">WebView</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="935588022"/>
+						<reference key="destination" ref="558260054"/>
 					</object>
 					<int key="connectionID">53</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">activityIndicator</string>
+						<reference key="source" ref="841351856"/>
+						<reference key="destination" ref="315767678"/>
+					</object>
+					<int key="connectionID">57</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -642,7 +664,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">HomeButtonClicked:</string>
-						<reference key="source" ref="134000835"/>
+						<reference key="source" ref="342023370"/>
 						<reference key="destination" ref="841351856"/>
 					</object>
 					<int key="connectionID">55</int>
@@ -686,9 +708,10 @@
 							<reference ref="101560703"/>
 							<reference ref="846781884"/>
 							<reference ref="78490531"/>
-							<reference ref="356432514"/>
+							<reference ref="499388263"/>
 							<reference ref="559086339"/>
-							<reference ref="935588022"/>
+							<reference ref="558260054"/>
+							<reference ref="315767678"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -769,7 +792,7 @@
 						<array class="NSMutableArray" key="children">
 							<reference ref="753767930"/>
 							<reference ref="213887666"/>
-							<reference ref="134000835"/>
+							<reference ref="342023370"/>
 						</array>
 						<reference key="parent" ref="766721923"/>
 					</object>
@@ -805,18 +828,23 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">50</int>
-						<reference key="object" ref="356432514"/>
+						<reference key="object" ref="499388263"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">52</int>
-						<reference key="object" ref="935588022"/>
+						<reference key="object" ref="558260054"/>
 						<reference key="parent" ref="766721923"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">54</int>
-						<reference key="object" ref="134000835"/>
+						<reference key="object" ref="342023370"/>
 						<reference key="parent" ref="101560703"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">56</int>
+						<reference key="object" ref="315767678"/>
+						<reference key="parent" ref="766721923"/>
 					</object>
 				</array>
 			</object>
@@ -848,6 +876,7 @@
 				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="52.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="54.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 			</dictionary>
@@ -855,7 +884,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">55</int>
+			<int key="maxID">59</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -902,6 +931,7 @@
 						<string key="SaveToSalesforceButtonOutlet">UIButton</string>
 						<string key="TypeLabel">UILabel</string>
 						<string key="WebView">UIWebView</string>
+						<string key="activityIndicator">UIActivityIndicatorView</string>
 						<string key="descriptiontextoutlet">UITextView</string>
 						<string key="endtimeoutlet">UILabel</string>
 						<string key="locationoutlet">UILabel</string>
@@ -932,6 +962,10 @@
 						<object class="IBToOneOutletInfo" key="WebView">
 							<string key="name">WebView</string>
 							<string key="candidateClassName">UIWebView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="activityIndicator">
+							<string key="name">activityIndicator</string>
+							<string key="candidateClassName">UIActivityIndicatorView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="descriptiontextoutlet">
 							<string key="name">descriptiontextoutlet</string>

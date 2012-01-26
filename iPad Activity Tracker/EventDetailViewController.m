@@ -3,7 +3,7 @@
 //  iPad Activity Tracker
 //
 //  Created by David Van Puyvelde on 05/12/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Salesforce.com. All rights reserved.
 //
 
 #import "EventDetailViewController.h"
@@ -15,6 +15,8 @@
 #import "zkSaveResult.h"
 #import "TypeSelectController.h"
 #import "OpportunitySelectController.h"
+#import "OpportunitySearchController.h"
+#import "OpportunityDetailViewController.h"
 #import "AccountSelectController.h"
 
 @interface EventDetailViewController ()
@@ -23,12 +25,12 @@
 @end
 
 @implementation EventDetailViewController
+@synthesize activityIndicator;
 @synthesize DeleteFromSalesforceButtonOutlet;
 @synthesize ImageCalendarTypeOutlet;
 @synthesize WebView;
 @synthesize navigationBar;
 @synthesize navigationbartitle;
-//@synthesize RelatedToLabel;
 @synthesize TypeLabel;
 @synthesize SaveToSalesforceButtonOutlet;
 
@@ -36,7 +38,6 @@
 @synthesize subjectoutlet,starttimeoutlet,endtimeoutlet,locationoutlet,relatedtooutlet,typeoutlet,descriptiontextoutlet;
 @synthesize masterPopoverController = _masterPopoverController;
 @synthesize popoverController;
-//@synthesize selectedwhat, selectedwhatid, selectedtype;
 @synthesize atevent;
 
 - (void)configureView
@@ -45,20 +46,18 @@
 }
 
 - (void)dealloc
-{
-    //[selectedwhat release];
-    //[selectedwhatid release];    
+{ 
     [_masterPopoverController release];
     [popoverController release];
     [navigationBar release];
     [navigationbartitle release];
     [store release];
-    //[RelatedToLabel release];
     [TypeLabel release];
     [SaveToSalesforceButtonOutlet release];
     [DeleteFromSalesforceButtonOutlet release];
     [ImageCalendarTypeOutlet release];
     [WebView release];
+    [activityIndicator release];
     [super dealloc];
 }
 
@@ -87,25 +86,21 @@
 {
     [super viewDidLoad];
 
-    //loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"index" ofType:@"html"]isDirectory:NO]]];
-
     // Do any additional setup after loading the view from its nib.
-    [WebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"help" ofType:@"html"]isDirectory:NO]]];
+    [self showHelp];
 }
 
 - (void)viewDidUnload
 {
     [self setNavigationBar:nil];
     [self setNavigationbartitle:nil];
-    //[self setRelatedToLabel:nil];
     [self setTypeLabel:nil];
     [self setSaveToSalesforceButtonOutlet:nil];
     [self setDeleteFromSalesforceButtonOutlet:nil];
     [self setImageCalendarTypeOutlet:nil];
     [self setWebView:nil];
+    [self setActivityIndicator:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -122,16 +117,14 @@
 -(void) setNewEvent:(ATEvent *)newEvent {
     
     if(newEvent == nil) {
-        [WebView setHidden:NO];
+        [self showHelp];
         return;
     }
     
-    [WebView setHidden:YES];
+    [self hideHelp];
     
     self.relatedtooutlet.text = [newEvent what];
     self.typeoutlet.text = [newEvent type];
-    //self.selectedwhatid = [newEvent whatid];
-    //self.selectedtype = [newEvent type];
     
     
     NSDateFormatter *dtf = [[NSDateFormatter alloc] init];
@@ -173,23 +166,15 @@ SAVE TO SALESFORCE
     
     //don't save as long as no event has been selected
     if(!atevent) {
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle: @"Error"
-                              message: @"Please select an item first"
-                              delegate: nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-        return;
+        [self alert:@"Please select an item first"];
     }
     
     
     NSMutableArray *saveobjects = [[NSMutableArray alloc] init ];
     ZKSObject *saveObj;
+
     
     //get the current selected ATEvent
-    //TODO make it work for SFDC activities as well
     if([atevent isIpadEvent]) {
         ATEvent *ev = [self atevent];
     
@@ -221,49 +206,45 @@ SAVE TO SALESFORCE
         [saveobjects addObject:saveObj];
     }
     
-    NSArray *results;
-    
-    @try {
-        if([atevent isIpadEvent]) { results = [[[SFDC sharedInstance] client] create:[NSArray arrayWithObject:saveobjects]]; }
-        if([atevent isSFDCEvent]) { results = [[[SFDC sharedInstance] client] update:[NSArray arrayWithObject:saveobjects]]; }
-    }
-    @catch (NSException *exception) {
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle: @"Error"
-                              message: [exception description]
-                              delegate: nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
-    }
 
+    [activityIndicator startAnimating];
+    [activityIndicator setHidden:NO];
     
-    
-    ZKSaveResult *sr = [results objectAtIndex:0];
-    if([sr success]) {
-        NSLog(@"Activity Saved");
-        //notify of save. The events list listen for this to reload it's table view
-        //[[NSNotificationCenter defaultCenter] postNotificationName:@"IPADEVENTSAVED" object:self];
-        //[[NSNotificationCenter defaultCenter] postNotificationName:@"SFDCEVENTSAVED" object:self];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"EVENTSAVED" object:self];
-    }
-    else {
-        NSLog(@"Error saving activity");
-        UIAlertView *alert = [[UIAlertView alloc]
-                              initWithTitle: @"Error"
-                              message: [sr message]
-                              delegate: nil
-                              cancelButtonTitle:@"OK"
-                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
+    //save in the background
+    dispatch_async( dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // Add code here to do background processing
+        NSArray *results;
+        @try {
+            if([atevent isIpadEvent]) { results = [[[SFDC sharedInstance] client] create:[NSArray arrayWithObject:saveobjects]]; }
+            if([atevent isSFDCEvent]) { results = [[[SFDC sharedInstance] client] update:[NSArray arrayWithObject:saveobjects]]; }
+        }
+        @catch (NSException *exception) {
+            [activityIndicator stopAnimating];
+            [activityIndicator setHidden:YES];
+            [self alert:[exception description]];
+        }
         
-    }
+        dispatch_async( dispatch_get_main_queue(), ^{
+            ZKSaveResult *sr = [results objectAtIndex:0];
+            if([sr success]) {
+                //always set the id when a successfull save is done (this will turn an iPad event in a SFDC event
+                [atevent setSfdcid:[sr id]];
+                [self setNewEvent:atevent];
+                //notify of save. The events list listen for this to reload it's table view
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"EVENTSAVED" object:self];
+            }
+            else {
+                [self alert:[sr message]];        
+            }
+            
+            
+            [saveobjects release];
+            [saveObj release];
+            [activityIndicator stopAnimating];
+            [activityIndicator setHidden:YES];
+        });
+    });
     
-    //NSArray *results = [client create:[NSArray arrayWithObject:saveobjects]];
-    [saveobjects release];
-    [saveObj release];
 }
 
 
@@ -276,7 +257,7 @@ SAVE TO SALESFORCE
     TypeSelectController *typeselect = [[TypeSelectController alloc] initWithNibName:@"TypeSelectController" bundle:[NSBundle mainBundle]];
     typeselect.title = @"Activity Types";
     
-    self.popoverController = [[UIPopoverController alloc] initWithContentViewController:typeselect];
+    self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:typeselect] autorelease];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(typeselected:) name:@"TYPESELECTED" object:typeselect];
     
     UIButton *button = sender;
@@ -312,28 +293,39 @@ SAVE TO SALESFORCE
  */
 - (IBAction)RelatedToButtonTouched:(id)sender {
     //create the opportunity select controller for following opportunities
-    OpportunitySelectController *oppcon1 = [[OpportunitySelectController alloc] initWithNibName:@"OpportunitySelectController" bundle:[NSBundle mainBundle]];
+    OpportunitySelectController *oppcon1 = [[[OpportunitySelectController alloc] initWithNibName:@"OpportunitySelectController" bundle:[NSBundle mainBundle]] autorelease];
     oppcon1.tabBarItem.image = [UIImage imageNamed:@"piggy.png"];
-    //oppcon1.opportunities = (NSMutableArray *)[self myopportunities];
-    //oppcon1.allopportunities = [[self myopportunities] copy];
-    oppcon1.title = @"Opportunities";
+    oppcon1.title = @"My Opportunities";
     oppcon1.opportunities = [NSMutableArray arrayWithArray:[[[SFDC sharedInstance] getDefaultUserOpportunities] copy]];
     oppcon1.allopportunities = [NSMutableArray arrayWithArray:[[oppcon1 opportunities] copy]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(opportunityselected:) name:@"OPPORTUNITYSELECTED" object:oppcon1];
 
-    AccountSelectController *accountcon = [[AccountSelectController alloc] initWithNibName:@"AccountSelectController" bundle:[NSBundle mainBundle]];
-    accountcon.title = @"Accounts";
+    //create the opportunity search controller
+    OpportunitySearchController *oppsearchcon = [[[OpportunitySearchController alloc] initWithNibName:@"OpportunitySearchController" bundle:nil] autorelease];
+    oppsearchcon.title = @"Search Opportunities";
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(opportunityselected:) name:@"OPPORTUNITYSELECTED" object:oppsearchcon];
+    
+    //create the account select (search) controller
+    AccountSelectController *accountcon = [[[AccountSelectController alloc] initWithNibName:@"AccountSelectController" bundle:[NSBundle mainBundle]] autorelease];
+    accountcon.title = @"Search Accounts";
     accountcon.tabBarItem.image = [UIImage imageNamed:@"bank.png"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountselected:) name:@"ACCOUNTSELECTED" object:accountcon];
     
     //create the tabbarcontroller
     UITabBarController *tabCon = [[UITabBarController alloc] init];
     
-    tabCon.viewControllers = [[NSArray alloc] initWithObjects:oppcon1, accountcon, nil];
+    //create a navigation controller to drop the my opportunity list in
+    UINavigationController *oppnavcon = [[[UINavigationController alloc] initWithRootViewController:oppcon1] autorelease];
+    //create a navigation controller to drop the search opportunities view in
+    UINavigationController *oppsearchnavcon = [[[UINavigationController alloc] initWithRootViewController:oppsearchcon] autorelease];
+    //create a navigation controller to drop the search account view in
+    UINavigationController *accountssearchnavcon = [[UINavigationController alloc] initWithRootViewController:accountcon];
+    
+    tabCon.viewControllers = [[NSArray alloc] initWithObjects:oppnavcon, oppsearchnavcon, accountssearchnavcon, nil];
     
     
-    self.popoverController = [[UIPopoverController alloc] initWithContentViewController:tabCon];
+    self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:tabCon] autorelease];
     
     
     
@@ -350,8 +342,6 @@ SAVE TO SALESFORCE
     }
     
     [tabCon release];
-    [oppcon1 release];
-    [accountcon release];
 }
 
 
@@ -364,8 +354,6 @@ SAVE TO SALESFORCE
     //delete event from Salesforce
     if([atevent isSFDCEvent]) {
         @try {
-            //ZKSObject* obj = [[[ZKSObject alloc] init] autorelease];
-            //[obj setFieldValue:[atevent sfdcid] field:@"Id"];
             NSString *objid = [atevent sfdcid];
             NSArray* objarray = [[[NSArray alloc] initWithObjects:objid, nil] autorelease];
             [[[SFDC sharedInstance] client] delete:objarray];
@@ -373,13 +361,7 @@ SAVE TO SALESFORCE
             [self setNewEvent:nil];
         }
         @catch (NSException *exception) {
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle: @"Error"
-                                  message: [exception description]
-                                  delegate: nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
-            [alert release];
+            [self alert:[exception description]];
         }
     }
     //delete event from the iPad calendar
@@ -394,13 +376,7 @@ SAVE TO SALESFORCE
             }
         }
         @catch (NSException *exception) {
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle: @"Error"
-                                  message: [exception description]
-                                  delegate: nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
-            [alert release];
+            [self alert:[exception description]];
         }
     }
 }
@@ -415,7 +391,7 @@ SAVE TO SALESFORCE
     ZKSObject *acc = [asc selectedaccount];
     
     
-    self.atevent.what = [acc fieldValue:@"What"];
+    self.atevent.what = [acc fieldValue:@"Name"];
     self.atevent.whatid = [acc fieldValue:@"Id"];
     
     self.relatedtooutlet.text = [acc fieldValue:@"Name"];
@@ -429,13 +405,22 @@ SAVE TO SALESFORCE
  when an OPPORTUNITY is selected
  */
 -(void)opportunityselected:(NSNotification*)notification {
-    OpportunitySelectController *osc = [notification object];
-    ZKSObject *opp = [osc selectedopportunity];
-    
+    //these notifications can come from the list view, search view
+    NSObject *source = [notification object];
+    ZKSObject *opp;
+    if([source isKindOfClass:[OpportunitySelectController class]]) {
+        OpportunitySelectController *osc = [notification object];
+        opp = [osc selectedopportunity];
+    }
+    if([source isKindOfClass:[OpportunitySearchController class]]) {
+        OpportunitySearchController *osc = [notification object];
+        opp = [osc selectedopportunity];
+    }
+
     self.relatedtooutlet.text = [opp fieldValue:@"Name"];
     
     self.atevent.whatid = [opp fieldValue:@"Id"];
-    self.atevent.what = [opp fieldValue:@"What"];
+    self.atevent.what = [opp fieldValue:@"Name"];
     
     [[self popoverController] dismissPopoverAnimated:NO];
 }
@@ -460,12 +445,47 @@ SAVE TO SALESFORCE
     self.masterPopoverController = nil;
 }
 
+/*
+ When the HELP button is clicked
+ */
 - (IBAction)HomeButtonClicked:(id)sender {
-    [WebView setHidden:NO];
+    [self showHelp];
 }
 
+/*
+ Show the HELP UIWebView
+ */
+-(void)showHelp {
+    [WebView setHidden:NO];
+    [[self navigationbartitle] setTitle:@""];
+    [WebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"help" ofType:@"html"]isDirectory:NO]]];
+}
+
+/*
+ Hide the Help view
+ */
+-(void)hideHelp {
+    [WebView setHidden:YES];
+}
+
+/*
+ When the LOGOUT button is clicked
+ */
 - (IBAction)logoutButtonClicked:(id)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"LOGOUT" object:self];
+}
+
+/* 
+ ALERT 
+*/
+-(void)alert:(NSString*) message {
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle: @"Error"
+                          message: message
+                          delegate: nil
+                          cancelButtonTitle:@"OK"
+                          otherButtonTitles:nil];
+    [alert release];
 }
 
 

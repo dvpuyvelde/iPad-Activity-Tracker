@@ -1,22 +1,19 @@
 //
-//  AccountSelectController.m
-//  Activity Tracker
+//  OpportunitySearchController.m
+//  iPad Activity Tracker
 //
-//  Created by David Van Puyvelde on 28/06/11.
-//  Copyright 2012 Salesforce.com. All rights reserved.
+//  Created by David Van Puyvelde on 25/01/12.
+//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "AccountSelectController.h"
-#import "AccountDetailViewController.h"
-#import "ZKSforce.h"
+#import "OpportunitySearchController.h"
+#import "zkSforce.h"
 #import "SFDC.h"
+#import "OpportunityDetailViewController.h"
 
+@implementation OpportunitySearchController
 
-@implementation AccountSelectController
-@synthesize searchBar;
-@synthesize accounts;
-@synthesize selectedaccount;
-
+@synthesize searchbar, selectedopportunity,opportunities;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -25,14 +22,6 @@
         // Custom initialization
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [selectedaccount release];
-    [accounts release];
-    [searchBar release];
-    [super dealloc];
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,16 +43,16 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    if(!accounts) {
-        accounts = [[NSMutableArray alloc] init];
+    if(!opportunities) {
+        opportunities = [[NSMutableArray alloc] init];
+    }
+    else {
+        //[opportunities removeAllObjects];
     }
 }
 
 - (void)viewDidUnload
 {
-    selectedaccount = nil;
-    accounts = nil;
-    [self setSearchBar:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -106,11 +95,12 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [accounts count];
+    return [[self opportunities] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -118,50 +108,43 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    if([accounts count] == 0) return cell;
+    if([opportunities count] == 0) return cell;
     
     // Configure the cell...
-    ZKSObject *acc = [accounts objectAtIndex:[indexPath row]];
-    cell.textLabel.text = [acc fieldValue:@"Name"];
-    NSString *detailtext = [[[NSString alloc ] initWithFormat:@"%@, %@ - %@ / @%", [acc fieldValue:@"BillingStreet"], [acc fieldValue:@"BillingCity"], [acc fieldValue:@"BillingCountry"], [[acc fieldValue:@"Owner"] fieldValue:@"Name"]] autorelease];
+    ZKSObject *opp = [opportunities objectAtIndex:[indexPath row]];
+    cell.textLabel.text = [opp fieldValue:@"Name"];
+    
+    NSString *status = [[[NSString alloc] init] autorelease];
+    
+    if([[opp fieldValue:@"IsClosed"] isEqualToString:@"true"]) {
+        status = @"Closed";
+    }
+    else {
+        status = @"Open";
+    }
+    NSString *detailtext = [[[NSString alloc] initWithFormat:@"%@ - %i %@ - %@", status,(int)[[opp fieldValue:@"Amount"] floatValue], [opp fieldValue:@"CurrencyIsoCode"], [[opp fieldValue:@"Owner"] fieldValue:@"Name"]] autorelease];
     cell.detailTextLabel.text = detailtext;
     cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
-    
     //[detailtext release];
     return cell;
+
 }
 
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.selectedaccount = [[self accounts] objectAtIndex:[indexPath row]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ACCOUNTSELECTED" object:self];
-}
-
-
-/* 
- hook to select account from the detail view
- */
--(void)selectAccount:(ZKSObject*) acc {
-    self.selectedaccount = acc;
-    [[self navigationController] popViewControllerAnimated:NO];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"ACCOUNTSELECTED" object:self];
-}
 
 /*
-    SEARCHBAR LOGIC
+ SEARCHBAR LOGIC
  */
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    //search salesforce Accounts
-    NSString *qry = [[NSString alloc ] initWithFormat:@"FIND {%@*} IN Name Fields RETURNING Account(Id, Name, BillingCountry, BillingCity, BillingStreet, Owner.Name LIMIT 100)", [self searchBar].text];
+    //search salesforce Opportunities
+    NSString *qry = [[NSString alloc ] initWithFormat:@"FIND {%@*} IN Name Fields RETURNING Opportunity(Id, Name, Account.Name, CloseDate, IsClosed, StageName, Amount, Owner.Name, CurrencyIsoCode ORDER BY CloseDate DESC LIMIT 100)", [self searchbar].text];
     
     @try {
         ZKSforceClient *client = [[SFDC sharedInstance] client];
         NSArray *result = [client search:qry];
-        [accounts removeAllObjects];
-        [accounts addObjectsFromArray:result];
+        [opportunities removeAllObjects];
+        [opportunities addObjectsFromArray:result];
         [[self tableView] reloadData];
+        
     }
     @catch (NSException *exception) {
         UIAlertView *alert = [[UIAlertView alloc]
@@ -179,20 +162,51 @@
 
 //when the cancel button is clicked
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar {
-    [accounts removeAllObjects];
+    [opportunities removeAllObjects];
     [[self tableView] reloadData];
 }
+
+/* 
+ hook to select opportunity from the detail view
+ */
+-(void)selectOpportunity:(ZKSObject*) opp {
+    self.selectedopportunity = opp;
+    [[self navigationController] popViewControllerAnimated:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"OPPORTUNITYSELECTED" object:self];
+    searchbar.text = @"";
+}
+
 
 /*
  Accessory button tapped in a row -> show details
  */
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     //get the opportunity zksobject
-    ZKSObject *obj = [[self accounts] objectAtIndex:[indexPath row]];
-    AccountDetailViewController *detailviewcontroller = [[[AccountDetailViewController alloc] initWithNibName:@"AccountDetailViewController" bundle:nil] autorelease];
-    [detailviewcontroller setAccount:obj];
+    ZKSObject *obj = [[self opportunities] objectAtIndex:[indexPath row]];
+    OpportunityDetailViewController *detailviewcontroller = [[[OpportunityDetailViewController alloc] initWithNibName:@"OpportunityDetailViewController" bundle:nil] autorelease];
+    [detailviewcontroller setOpportunity:obj];
+    
     [detailviewcontroller setParentviewcontroller:self];
     [[self navigationController] pushViewController:detailviewcontroller animated:YES];
+}
+
+
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //get the opportunity zksobject
+    ZKSObject *obj = [[self opportunities] objectAtIndex:[indexPath row]];
+    self.selectedopportunity = obj;
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"OPPORTUNITYSELECTED" object:self];
+}
+
+-(void)dealloc {
+    [selectedopportunity release];
+    [opportunities release];
+    [searchbar release];
+    [super dealloc];
 }
 
 @end

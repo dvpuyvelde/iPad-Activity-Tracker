@@ -3,7 +3,7 @@
 //  iPad Activity Tracker
 //
 //  Created by David Van Puyvelde on 11/01/12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Salesforce.com. All rights reserved.
 //
 
 #import "ATEvent.h"
@@ -37,7 +37,7 @@
     self.ekeventid = [ekevent eventIdentifier];
     //calculate the comparekey (ipad and sfdc events are compared via a 'fake' key : startdatetime_subject
     NSString *trimmedtitle = [[ekevent title] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    self.comparekey = [[NSString alloc] initWithFormat:@"%@_%@", [Utils formatDateTimeAsStringUTC:[ekevent startDate]], trimmedtitle];
+    self.comparekey = [[[NSString alloc] initWithFormat:@"%@_%@", [Utils formatDateTimeAsStringUTC:[ekevent startDate]], trimmedtitle] autorelease];
     self.startdate = [ekevent startDate];
     self.enddate = [ekevent endDate];
     self.subject = [ekevent title];
@@ -48,8 +48,6 @@
     NSDateComponents *breakdowninfo = [sysCalendar components:NSMinuteCalendarUnit fromDate:[ekevent startDate] toDate:[ekevent endDate] options:0];
     NSInteger minutes = [breakdowninfo minute];
     self.duration = [NSString stringWithFormat:@"%d", minutes];
-    
-    //[trimmedtitle release];
 }
 
 /*
@@ -69,8 +67,7 @@
     self.what = [[sfdcevent fieldValue:@"What"] fieldValue:@"Name"];
     self.whatid = [sfdcevent fieldValue:@"WhatId"];
     self.type = [sfdcevent fieldValue:@"Type"];
-    
-    [eventkey release];
+
 }
 
 @end

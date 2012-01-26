@@ -3,7 +3,7 @@
 //  iPad Activity Tracker
 //
 //  Created by David Van Puyvelde on 21/12/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Salesforce.com. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -84,11 +84,11 @@
             NSString *teamoppidlist = [NSString stringWithFormat:@"'%@'", [teamopportunityidsarray componentsJoinedByString:@"','"]];
 
             //build the Org62 opportunitites query
-            oppdetailsquery = [NSString stringWithFormat:@"select Id, Name, Owner.Name, CloseDate, IsClosed, StageName, Amount, CurrencyIsoCode from Opportunity where (Id IN (%@) or Id IN (%@)) and IsClosed = false order by Name", teamoppidlist, oppidslist];
+            oppdetailsquery = [NSString stringWithFormat:@"select Id, Name, Account.Name, Owner.Name, CloseDate, IsClosed, StageName, Amount, CurrencyIsoCode from Opportunity where (Id IN (%@) or Id IN (%@)) and IsClosed = false order by Name", teamoppidlist, oppidslist];
             }
             else {
                 //build the opportunitites query
-                oppdetailsquery = [NSString stringWithFormat:@"select Id, Name, Owner.Name, CloseDate, IsClosed, StageName, Amount from Opportunity where Id IN (%@) and IsClosed = false order by Name", oppidslist];
+                oppdetailsquery = [NSString stringWithFormat:@"select Id, Name, Account.Name, Owner.Name, CloseDate, IsClosed, StageName, Amount from Opportunity where Id IN (%@) and IsClosed = false order by Name", oppidslist];
             }
     
         //NSLog(@"OPPORTUNITY QUERY : %@",oppdetailsquery);

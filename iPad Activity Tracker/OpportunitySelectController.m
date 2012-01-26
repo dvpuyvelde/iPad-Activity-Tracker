@@ -3,10 +3,11 @@
 //  Activity Tracker
 //
 //  Created by David Van Puyvelde on 20/06/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2012 Salesforce.com. All rights reserved.
 //
 
 #import "OpportunitySelectController.h"
+#import "OpportunityDetailViewController.h"
 #import "ZKSObject.h"
 #import "SFDC.h"
 
@@ -128,14 +129,16 @@
     cell.textLabel.text = [obj fieldValue:@"Name"];
     NSString *detailtext = [[NSString alloc] initWithFormat:@"%i %@ - %@",(int)[[obj fieldValue:@"Amount"] floatValue], [obj fieldValue:@"CurrencyIsoCode"], [[obj fieldValue:@"Owner"] fieldValue:@"Name"]];
     cell.detailTextLabel.text = detailtext;
-    
+    cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     [detailtext release];
     return cell;
 }
 
 
 #pragma mark - Table view delegate
-
+/*
+    Opportunity got selected
+ */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -144,12 +147,45 @@
     self.selectedopportunity = obj;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OPPORTUNITYSELECTED" object:self];
     
-    //when an opp got selected, reset all the search stuff
-    //[[self opportunities] removeAllObjects];
-    //[[self opportunities] addObjectsFromArray:[self allopportunities]];
+    NSLog(@"Selected opp name : %@", [[self selectedopportunity] fieldValue:@"Name"]);
     searchbar.text = @"";
     
 }
+
+
+/* 
+ hook to select opportunity from the detail view
+*/
+-(void)selectOpportunity:(ZKSObject*) opp {
+    self.selectedopportunity = opp;
+    [[self navigationController] popViewControllerAnimated:NO];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"OPPORTUNITYSELECTED" object:self];
+    searchbar.text = @"";
+}
+
+
+
+
+
+/*
+ Accessory button tapped in a row -> show details
+ */
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+    //get the opportunity zksobject
+    ZKSObject *obj = [[self opportunities] objectAtIndex:[indexPath row]];
+    OpportunityDetailViewController *detailviewcontroller = [[[OpportunityDetailViewController alloc] initWithNibName:@"OpportunityDetailViewController" bundle:nil] autorelease];
+    [detailviewcontroller setOpportunity:obj];
+    [detailviewcontroller setParentviewcontroller:self];
+    [[self navigationController] pushViewController:detailviewcontroller animated:YES];
+}
+
+
+
+
+
+
+
+
 
 /*
             Opportunity searchbar logic
@@ -190,6 +226,11 @@
     }
     [[self tableView] reloadData];
 }
+
+
+
+
+
 /*
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     searchBar.text=@"";

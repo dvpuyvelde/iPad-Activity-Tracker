@@ -3,7 +3,7 @@
 //  iPad Activity Tracker
 //
 //  Created by David Van Puyvelde on 15/11/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Salesforce.com. All rights reserved.
 //
 
 #import "LoginView.h"
@@ -57,21 +57,27 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
             return;
         }
         @catch (NSException *exception) {
-            //if anything goes wrong here, remove the refresh token so user don't get stuck
-            [SimpleKeychain delete:@"refreshtoken"];
-            
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle: @"Error"
-                                  message: [exception description]
-                                  delegate: nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
-            [alert show];
-            [alert release];
+             
+                //if anything else goes wrong here, remove the refresh token so user don't get stuck
+                [SimpleKeychain delete:@"refreshtoken"];
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle: @"Error"
+                                      message: [exception description]
+                                      delegate: nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles: nil];
+                [alert show];
+                [alert release];
         }
     }
     
-    
+    [self presentLoginPage];
+}
+
+
+
+//present the oauth login page
+-(void)presentLoginPage {
     
     // build the URL to the oauth page with our client_id & callback URL set.
     NSString *login = [NSString stringWithFormat:@"https://login.salesforce.com/services/oauth2/authorize?response_type=token&client_id=%@&redirect_uri=%@&display=touch",
@@ -82,6 +88,7 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
     [requestObj setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
     [[self webView] loadRequest:requestObj];
 }
+
 
 
 //intercept the webview url get request and react to the oauth confirmation
