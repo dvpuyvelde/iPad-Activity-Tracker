@@ -94,27 +94,32 @@
     [[self allevents] removeAllObjects];
     [week removeAllObjects];
     [dayheaders removeAllObjects];
-//    [[self ipadevents] removeAllObjects];
-//    [[self salesforceeventkeys]removeAllObjects];
-//    [[self salesforceevents] removeAllObjects];
     
     
-    // Create the predicate.
-    NSPredicate *predicate = [store predicateForEventsWithStartDate:[self startdate] endDate:[self enddate] calendars:nil];
-    
-    // Fetch all events that match the predicate.
-    NSArray *ipadevents = [store eventsMatchingPredicate:predicate];
-    
-    //drop them in the allevents dictionary with fake key and value
-    for(EKEvent *ev in ipadevents) {
-        //calculate the startdatetime_title string
-        NSString *trimmedtitle = [[ev title] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        NSString *localkey = [[NSString alloc] initWithFormat:@"%@_%@", [Utils formatDateTimeAsStringUTC:[ev startDate]], trimmedtitle];
-        ATEvent *atevent = [[ATEvent alloc] init];
-        [atevent withEKEvent:ev];
-        [allevents setObject:atevent forKey:localkey];
-        [atevent release];
+    //check if the users wants to include ipad events as well in the list
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *needtoshowipadevents = [defaults objectForKey:@"ATShowIPadEvents"];
+
+    if(needtoshowipadevents == nil || [needtoshowipadevents isEqualToString:@"YES"]) {
+        // Create the predicate.
+        NSPredicate *predicate = [store predicateForEventsWithStartDate:[self startdate] endDate:[self enddate] calendars:nil];
+        
+        // Fetch all events that match the predicate.
+        NSArray *ipadevents = [store eventsMatchingPredicate:predicate];
+        
+        //drop them in the allevents dictionary with fake key and value
+        for(EKEvent *ev in ipadevents) {
+            //calculate the startdatetime_title string
+            NSString *trimmedtitle = [[ev title] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            NSString *localkey = [[NSString alloc] initWithFormat:@"%@_%@", [Utils formatDateTimeAsStringUTC:[ev startDate]], trimmedtitle];
+            ATEvent *atevent = [[ATEvent alloc] init];
+            [atevent withEKEvent:ev];
+            [allevents setObject:atevent forKey:localkey];
+            [atevent release];
+        }
     }
+    
+    
     
     
     //also fetch the events from Salesforce
@@ -129,6 +134,9 @@
         ZKQueryResult *result = [client query:activitiesquery];
         //drop them in the allevents eventkeys set
          for(ZKSObject *sfdcEvent in [result records]) {
+             //all day events have an empty ActivityDateTime ... need to fix that. Skip for now
+             if([sfdcEvent fieldValue:@"ActivityDateTime"] == nil) continue;
+             
              //let's create a fake key to compare : startdatetimeinutc_subject
              NSString *eventkey = [[[NSString alloc ] initWithFormat:@"%@_%@", [sfdcEvent fieldValue:@"ActivityDateTime"], [sfdcEvent fieldValue:@"Subject"]] autorelease];
              //drop those events in the dictionary
@@ -352,5 +360,12 @@
     [[self tableview] reloadData];
 }
 
+
+/*
+ if the user preferences about showing the ipad items changes, reload
+ */
+-(void)showsettingschanged:(NSNotification*)notification {
+    [self queryForEvents];
+}
 
 @end

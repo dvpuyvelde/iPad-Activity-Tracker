@@ -4,17 +4,31 @@
    version = "1.0">
    <FileBreakpoints>
       <FileBreakpoint
-         shouldBeEnabled = "Yes"
+         shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "iPad Activity Tracker/SFDC.m"
-         timestampString = "349199085.66322"
+         filePath = "iPad Activity Tracker/AllEventsViewController.m"
+         timestampString = "349789448.916162"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "169"
-         endingLineNumber = "169"
-         landmarkName = "-dealloc"
+         startingLineNumber = "151"
+         endingLineNumber = "151"
+         landmarkName = "-queryForEvents"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "iPad Activity Tracker/AllEventsViewController.m"
+         timestampString = "349788404.82553"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "134"
+         endingLineNumber = "134"
+         landmarkName = "-queryForEvents"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

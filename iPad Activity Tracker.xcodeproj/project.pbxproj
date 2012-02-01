@@ -16,6 +16,9 @@
 		E60CBF9314BCCFDD00EB7A71 /* AllEventsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E60CBF9214BCCFDD00EB7A71 /* AllEventsViewController.xib */; };
 		E625BD6414D00DDE00027680 /* AccountDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E625BD6214D00DDE00027680 /* AccountDetailViewController.m */; };
 		E625BD6514D00DDE00027680 /* AccountDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E625BD6314D00DDE00027680 /* AccountDetailViewController.xib */; };
+		E625BD6F14D15D8600027680 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E625BD6D14D15D8500027680 /* SettingsViewController.m */; };
+		E625BD7014D15D8600027680 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E625BD6E14D15D8600027680 /* SettingsViewController.xib */; };
+		E650270514D85CCC00CA563C /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = E650270414D85CCC00CA563C /* Entitlements.plist */; };
 		E66A312514B1F13100345C9F /* button_cancel20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = E66A312214B1F13100345C9F /* button_cancel20x20.png */; };
 		E66A312614B1F13100345C9F /* Ok20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = E66A312314B1F13100345C9F /* Ok20x20.png */; };
 		E66A312714B1F13100345C9F /* OkGray20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = E66A312414B1F13100345C9F /* OkGray20x20.png */; };
@@ -34,6 +37,9 @@
 		E672A9AD14BDCCA60091FA32 /* ATEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = E672A9AC14BDCCA60091FA32 /* ATEvent.m */; };
 		E676353114CF57B9001B83F6 /* OpportunityDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E676352F14CF57B9001B83F6 /* OpportunityDetailViewController.m */; };
 		E676353214CF57B9001B83F6 /* OpportunityDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E676353014CF57B9001B83F6 /* OpportunityDetailViewController.xib */; };
+		E679952814D1D1D900E76759 /* preferences.png in Resources */ = {isa = PBXBuildFile; fileRef = E679952714D1D1D900E76759 /* preferences.png */; };
+		E679952B14D1D23300E76759 /* magnifyingglass.png in Resources */ = {isa = PBXBuildFile; fileRef = E679952A14D1D23300E76759 /* magnifyingglass.png */; };
+		E679952D14D1D27200E76759 /* database.png in Resources */ = {isa = PBXBuildFile; fileRef = E679952C14D1D27200E76759 /* database.png */; };
 		E67A7AD0149F58DA00C9164A /* datePicker16.gif in Resources */ = {isa = PBXBuildFile; fileRef = E67A7ACF149F58DA00C9164A /* datePicker16.gif */; };
 		E67A7B2814A13F2D00C9164A /* zkAuthentication.m in Sources */ = {isa = PBXBuildFile; fileRef = E67A7AE014A13F2D00C9164A /* zkAuthentication.m */; };
 		E67A7B2914A13F2D00C9164A /* zkBaseClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E67A7AE214A13F2D00C9164A /* zkBaseClient.m */; };
@@ -109,6 +115,10 @@
 		E625BD6114D00DDE00027680 /* AccountDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountDetailViewController.h; sourceTree = "<group>"; };
 		E625BD6214D00DDE00027680 /* AccountDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountDetailViewController.m; sourceTree = "<group>"; };
 		E625BD6314D00DDE00027680 /* AccountDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AccountDetailViewController.xib; sourceTree = "<group>"; };
+		E625BD6C14D15D8400027680 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		E625BD6D14D15D8500027680 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		E625BD6E14D15D8600027680 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
+		E650270414D85CCC00CA563C /* Entitlements.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Entitlements.plist; sourceTree = "<group>"; };
 		E66A312214B1F13100345C9F /* button_cancel20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button_cancel20x20.png; sourceTree = "<group>"; };
 		E66A312314B1F13100345C9F /* Ok20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Ok20x20.png; sourceTree = "<group>"; };
 		E66A312414B1F13100345C9F /* OkGray20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OkGray20x20.png; sourceTree = "<group>"; };
@@ -135,6 +145,9 @@
 		E676352E14CF57B9001B83F6 /* OpportunityDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpportunityDetailViewController.h; sourceTree = "<group>"; };
 		E676352F14CF57B9001B83F6 /* OpportunityDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpportunityDetailViewController.m; sourceTree = "<group>"; };
 		E676353014CF57B9001B83F6 /* OpportunityDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OpportunityDetailViewController.xib; sourceTree = "<group>"; };
+		E679952714D1D1D900E76759 /* preferences.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preferences.png; sourceTree = "<group>"; };
+		E679952A14D1D23300E76759 /* magnifyingglass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magnifyingglass.png; sourceTree = "<group>"; };
+		E679952C14D1D27200E76759 /* database.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = database.png; sourceTree = "<group>"; };
 		E67A7ACF149F58DA00C9164A /* datePicker16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = datePicker16.gif; sourceTree = "<group>"; };
 		E67A7ADF14A13F2D00C9164A /* zkAuthentication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zkAuthentication.h; sourceTree = "<group>"; };
 		E67A7AE014A13F2D00C9164A /* zkAuthentication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zkAuthentication.m; sourceTree = "<group>"; };
@@ -290,7 +303,10 @@
 				E66A312214B1F13100345C9F /* button_cancel20x20.png */,
 				E66A312314B1F13100345C9F /* Ok20x20.png */,
 				E66A312414B1F13100345C9F /* OkGray20x20.png */,
+				E679952C14D1D27200E76759 /* database.png */,
+				E679952A14D1D23300E76759 /* magnifyingglass.png */,
 				E6E0DBF114A39D7600A3ED77 /* bank.png */,
+				E679952714D1D1D900E76759 /* preferences.png */,
 				E6E0DBF214A39D7600A3ED77 /* piggy.png */,
 			);
 			name = Images;
@@ -299,6 +315,7 @@
 		E66B0B711472FD1C00BBA686 = {
 			isa = PBXGroup;
 			children = (
+				E650270414D85CCC00CA563C /* Entitlements.plist */,
 				E67A7ADE14A13F2C00C9164A /* zkSforce */,
 				E66B0B861472FD1D00BBA686 /* iPad Activity Tracker */,
 				E66B0B7F1472FD1D00BBA686 /* Frameworks */,
@@ -358,6 +375,9 @@
 				E66ADB0914A29A750015D074 /* TypeSelectController.h */,
 				E66ADB0A14A29A750015D074 /* TypeSelectController.m */,
 				E66ADB0B14A29A750015D074 /* TypeSelectController.xib */,
+				E625BD6C14D15D8400027680 /* SettingsViewController.h */,
+				E625BD6D14D15D8500027680 /* SettingsViewController.m */,
+				E625BD6E14D15D8600027680 /* SettingsViewController.xib */,
 				E60CBF9414BCD08700EB7A71 /* Utility Classes */,
 				E66A313014B372C100345C9F /* Images */,
 				E66B0B871472FD1D00BBA686 /* Supporting Files */,
@@ -535,6 +555,11 @@
 				E676353214CF57B9001B83F6 /* OpportunityDetailViewController.xib in Resources */,
 				E6051FEF14CF70E9009D8EE9 /* OpportunitySearchController.xib in Resources */,
 				E625BD6514D00DDE00027680 /* AccountDetailViewController.xib in Resources */,
+				E625BD7014D15D8600027680 /* SettingsViewController.xib in Resources */,
+				E679952814D1D1D900E76759 /* preferences.png in Resources */,
+				E679952B14D1D23300E76759 /* magnifyingglass.png in Resources */,
+				E679952D14D1D27200E76759 /* database.png in Resources */,
+				E650270514D85CCC00CA563C /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -598,6 +623,7 @@
 				E676353114CF57B9001B83F6 /* OpportunityDetailViewController.m in Sources */,
 				E6051FEE14CF70E9009D8EE9 /* OpportunitySearchController.m in Sources */,
 				E625BD6414D00DDE00027680 /* AccountDetailViewController.m in Sources */,
+				E625BD6F14D15D8600027680 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,6 +661,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 			};
@@ -645,7 +672,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Van Puyvelde";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -654,6 +681,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -667,6 +695,7 @@
 				GCC_PREFIX_HEADER = "iPad Activity Tracker/iPad Activity Tracker-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "iPad Activity Tracker/iPad Activity Tracker-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -680,11 +709,48 @@
 				GCC_PREFIX_HEADER = "iPad Activity Tracker/iPad Activity Tracker-Prefix.pch";
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				INFOPLIST_FILE = "iPad Activity Tracker/iPad Activity Tracker-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
+		};
+		E679952E14D83B1000E76759 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: David Van Puyvelde";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
+		};
+		E679952F14D83B1000E76759 /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = Entitlements.plist;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "iPad Activity Tracker/iPad Activity Tracker-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				INFOPLIST_FILE = "iPad Activity Tracker/iPad Activity Tracker-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_LDFLAGS = "-lxml2";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = "Ad Hoc";
 		};
 /* End XCBuildConfiguration section */
 
@@ -694,6 +760,7 @@
 			buildConfigurations = (
 				E66B0B9E1472FD1D00BBA686 /* Debug */,
 				E66B0B9F1472FD1D00BBA686 /* Release */,
+				E679952E14D83B1000E76759 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -703,6 +770,7 @@
 			buildConfigurations = (
 				E66B0BA11472FD1D00BBA686 /* Debug */,
 				E66B0BA21472FD1D00BBA686 /* Release */,
+				E679952F14D83B1000E76759 /* Ad Hoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

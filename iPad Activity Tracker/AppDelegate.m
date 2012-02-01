@@ -11,6 +11,7 @@
 #import "LoginView.h"
 #import "EventDetailViewController.h"
 #import "AllEventsViewController.h"
+#import "SettingsViewController.h"
 #import "ZKSforce.h"
 #import "SimpleKeychain.h"
 #import "ZKSObject.h"
@@ -83,18 +84,27 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
     AllEventsViewController *alleventsview = [[[AllEventsViewController alloc] initWithNibName:@"AllEventsViewController" bundle:nil] autorelease];
     [self set_alleventsViewController:alleventsview];
     [alleventsview setTitle:@"All Events"];
-    [[alleventsview tabBarItem] setImage:[UIImage imageNamed:@"openactivity32.png"]];
+    [[alleventsview tabBarItem] setImage:[UIImage imageNamed:@"database.png"]];
     [alleventsview setStartdate:[Utils startOfWeek]];
     [alleventsview setEnddate:[Utils endOfWeek]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventselected:) name:@"EVENTSELECTED" object:alleventsview];
     
+    
+    
+    //settings view
+    SettingsViewController *settingsviewcontroller = [[[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil] autorelease];
+    [settingsviewcontroller setTitle:@"Settings"];
+    [[settingsviewcontroller tabBarItem] setImage:[UIImage imageNamed:@"preferences.png"]];
+    [[NSNotificationCenter defaultCenter] addObserver:alleventsview selector:@selector(showsettingschanged:) name:@"SHOWSETTINGSCHANGED" object:settingsviewcontroller];
+    
+    
     //left tab bar
     UITabBarController *tabbarcontroller = [[[UITabBarController alloc] init] autorelease];
-    tabbarcontroller.viewControllers = [NSArray arrayWithObjects:alleventsview, nil];
+    tabbarcontroller.viewControllers = [NSArray arrayWithObjects:alleventsview, settingsviewcontroller, nil];
     
     
     //Main SFDC Event detail view
-    EventDetailViewController *eventDetailViewController = [[EventDetailViewController alloc] initWithNibName:@"EventDetailViewController" bundle:nil];
+    EventDetailViewController *eventDetailViewController = [[[EventDetailViewController alloc] initWithNibName:@"EventDetailViewController" bundle:nil] autorelease];
     [self set_eventDetailViewController:eventDetailViewController];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(logout) name:@"LOGOUT" object:eventDetailViewController];
     [[NSNotificationCenter defaultCenter] addObserver:alleventsview selector:@selector(eventsaved:) name:@"EVENTSAVED" object:eventDetailViewController];

@@ -198,7 +198,7 @@ SAVE TO SALESFORCE
         [saveobjects addObject:saveObj];
     }
     if([atevent isSFDCEvent]) {
-        saveObj = saveObj = [[ZKSObject alloc] initWithType:@"Event"];
+        saveObj = [[ZKSObject alloc] initWithType:@"Event"];
         [saveObj setFieldValue:[atevent sfdcid] field:@"Id"];
         [saveObj setFieldValue:[atevent whatid] field:@"WhatId"];
         [saveObj setFieldValue:[atevent type] field:@"Type"];
@@ -238,12 +238,13 @@ SAVE TO SALESFORCE
             }
             
             
-            [saveobjects release];
-            [saveObj release];
+            
             [activityIndicator stopAnimating];
             [activityIndicator setHidden:YES];
         });
     });
+    [saveobjects release];
+    [saveObj release];
     
 }
 
@@ -304,6 +305,7 @@ SAVE TO SALESFORCE
     //create the opportunity search controller
     OpportunitySearchController *oppsearchcon = [[[OpportunitySearchController alloc] initWithNibName:@"OpportunitySearchController" bundle:nil] autorelease];
     oppsearchcon.title = @"Search Opportunities";
+    oppsearchcon.tabBarItem.image = [UIImage imageNamed:@"magnifyingglass.png"];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(opportunityselected:) name:@"OPPORTUNITYSELECTED" object:oppsearchcon];
     
     //create the account select (search) controller
@@ -358,7 +360,11 @@ SAVE TO SALESFORCE
             NSArray* objarray = [[[NSArray alloc] initWithObjects:objid, nil] autorelease];
             [[[SFDC sharedInstance] client] delete:objarray];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SFDCEVENTDELETED" object:self];
-            [self setNewEvent:nil];
+            self.atevent.sfdcid = nil;
+            self.atevent.what = nil;
+            self.atevent.whatid = nil;
+            self.atevent.type = nil;
+            [self setNewEvent:atevent];
         }
         @catch (NSException *exception) {
             [self alert:[exception description]];
