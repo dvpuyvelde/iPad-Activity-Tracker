@@ -179,7 +179,7 @@ SAVE TO SALESFORCE
         ATEvent *ev = [self atevent];
     
         //create the ZKSobject and set the field values
-        saveObj = [[ZKSObject alloc] initWithType:@"Event"];
+        saveObj = [[[ZKSObject alloc] initWithType:@"Event"] autorelease];
         [saveObj setFieldValue:[ev subject] field:@"Subject"];
         [saveObj setFieldValue:[ev location] field:@"Location"];
         [saveObj setFieldValue:[ev description] field:@"Description"];
@@ -197,8 +197,8 @@ SAVE TO SALESFORCE
         [saveObj setFieldValue:duration field:@"DurationInMinutes"];
         [saveobjects addObject:saveObj];
     }
-    if([atevent isSFDCEvent]) {
-        saveObj = [[ZKSObject alloc] initWithType:@"Event"];
+    else if([atevent isSFDCEvent]) {
+        saveObj = [[[ZKSObject alloc] initWithType:@"Event"] autorelease];
         [saveObj setFieldValue:[atevent sfdcid] field:@"Id"];
         [saveObj setFieldValue:[atevent whatid] field:@"WhatId"];
         [saveObj setFieldValue:[atevent type] field:@"Type"];
@@ -244,7 +244,7 @@ SAVE TO SALESFORCE
         });
     });
     [saveobjects release];
-    [saveObj release];
+    //[saveObj release];
     
 }
 

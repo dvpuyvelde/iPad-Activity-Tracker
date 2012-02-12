@@ -114,7 +114,7 @@
     ZKSObject *opp = [opportunities objectAtIndex:[indexPath row]];
     cell.textLabel.text = [opp fieldValue:@"Name"];
     
-    NSString *status = [[[NSString alloc] init] autorelease];
+    NSString *status;// = [[[NSString alloc] init] autorelease];
     
     if([[opp fieldValue:@"IsClosed"] isEqualToString:@"true"]) {
         status = @"Closed";

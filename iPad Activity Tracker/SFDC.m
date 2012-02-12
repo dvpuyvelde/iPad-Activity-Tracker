@@ -24,7 +24,7 @@
     if([self activitytypes]) return [self activitytypes];
     //query if we don't
     if([self client] != nil) {
-        self.activitytypes = [[NSMutableArray alloc] init];
+        self.activitytypes = [[[NSMutableArray alloc] init] autorelease];
         ZKDescribeLayoutResult *dlr = [[self client] describeLayout:@"Event" recordTypeIds:nil];
         for(ZKRecordTypeMapping *mapping in [dlr recordTypeMappings]) {
             if([mapping defaultRecordTypeMapping] == TRUE) {
