@@ -11,6 +11,7 @@
 @interface LoginView : UIViewController <UIWebViewDelegate>
 
 @property (retain, nonatomic) IBOutlet UIWebView *webView;
+@property (retain, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 -(void)presentLoginPage;
 

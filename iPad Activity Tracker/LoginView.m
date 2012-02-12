@@ -19,6 +19,7 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
 
 @implementation LoginView
 @synthesize webView;
+@synthesize activityIndicator;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -123,9 +124,20 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
     return TRUE;
 }
 
+
+//control the activity indicator
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [activityIndicator startAnimating];
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [activityIndicator stopAnimating];
+}
+
+
 - (void)viewDidUnload
 {
     [self setWebView:nil];
+    [self setActivityIndicator:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -139,6 +151,7 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
 
 - (void)dealloc {
     [webView release];
+    [activityIndicator release];
     [super dealloc];
 }
 

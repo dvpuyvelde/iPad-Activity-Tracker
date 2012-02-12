@@ -84,7 +84,7 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
     AllEventsViewController *alleventsview = [[[AllEventsViewController alloc] initWithNibName:@"AllEventsViewController" bundle:nil] autorelease];
     [self set_alleventsViewController:alleventsview];
     [alleventsview setTitle:@"All Events"];
-    [[alleventsview tabBarItem] setImage:[UIImage imageNamed:@"database.png"]];
+    [[alleventsview tabBarItem] setImage:[UIImage imageNamed:@"83-calendar.png"]];
     [alleventsview setStartdate:[Utils startOfWeek]];
     [alleventsview setEnddate:[Utils endOfWeek]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(eventselected:) name:@"EVENTSELECTED" object:alleventsview];
@@ -133,8 +133,10 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
 
 //SFDC EVENT DELETED
 -(void)sfdceventdeleted:(NSNotification*)notification {
+    CGPoint yoffset = self._alleventsViewController.tableview.contentOffset;
     [[self _alleventsViewController] queryForEvents];
     [[[self _alleventsViewController] tableview] reloadData];
+    self._alleventsViewController.tableview.contentOffset = yoffset;
 }
 
 //log out
@@ -142,6 +144,12 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
     //nil the refreshtoken.
     [SimpleKeychain delete:@"refreshtoken"];
     [[SFDC sharedInstance] clearCache];
+    //also get rid of all cookies (if there's still a session active, the session token will redirect the oauth web page to the 'Allow / Deny' instead of the new login page
+    NSHTTPCookie *cookie;
+    NSHTTPCookieStorage *storage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (cookie in [storage cookies]) {
+        [storage deleteCookie:cookie];
+    }
     [self popLoginWindow];
 }
 

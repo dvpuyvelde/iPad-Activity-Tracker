@@ -98,7 +98,7 @@
     
     // Cell 0-0
     if([indexPath row] == 0) {
-        cell.textLabel.text = @"Show iPad calendar items";
+        cell.textLabel.text = @"Show iPad calendar";
         UISwitch *switchView = [[UISwitch alloc] initWithFrame:CGRectZero];
         cell.accessoryView = switchView;
         //check if the users wants to include ipad events as well in the list

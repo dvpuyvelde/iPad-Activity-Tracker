@@ -284,6 +284,8 @@ SAVE TO SALESFORCE
     self.typeoutlet.text = [tsc selectedtype];
     self.atevent.type = [tsc selectedtype];
     [[self popoverController] dismissPopoverAnimated:NO];
+    //autosave
+    [self saveToSalesforceClicked:nil];
 }
 
 
@@ -353,6 +355,21 @@ SAVE TO SALESFORCE
  DELETE Button Clicked
  */
 - (IBAction)deleteButtonClicked:(id)sender {
+    //delete event from the iPad calendar
+    if([atevent isIpadEvent]) {
+        @try {
+            EKEvent *event = [store eventWithIdentifier:[atevent ekeventid]];
+            if(event != nil) {
+                NSError *error = nil;
+                [store removeEvent:event span:EKSpanThisEvent error:&error];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SFDCEVENTDELETED" object:self];
+                [self setNewEvent:nil];
+            }
+        }
+        @catch (NSException *exception) {
+            [self alert:[exception description]];
+        }
+    }
     //delete event from Salesforce
     if([atevent isSFDCEvent]) {
         @try {
@@ -365,21 +382,6 @@ SAVE TO SALESFORCE
             self.atevent.whatid = nil;
             self.atevent.type = nil;
             [self setNewEvent:atevent];
-        }
-        @catch (NSException *exception) {
-            [self alert:[exception description]];
-        }
-    }
-    //delete event from the iPad calendar
-    if([atevent isIpadEvent]) {
-        @try {
-            EKEvent *event = [store eventWithIdentifier:[atevent ekeventid]];
-            if(event != nil) {
-                NSError *error = nil;
-                [store removeEvent:event span:EKSpanThisEvent error:&error];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"SFDCEVENTDELETED" object:self];
-                [self setNewEvent:nil];
-            }
         }
         @catch (NSException *exception) {
             [self alert:[exception description]];
@@ -403,6 +405,9 @@ SAVE TO SALESFORCE
     self.relatedtooutlet.text = [acc fieldValue:@"Name"];
     
     [[self popoverController] dismissPopoverAnimated:NO];
+    
+    //autosave
+    [self saveToSalesforceClicked:nil];
 }
 
 
@@ -429,6 +434,9 @@ SAVE TO SALESFORCE
     self.atevent.what = [opp fieldValue:@"Name"];
     
     [[self popoverController] dismissPopoverAnimated:NO];
+    
+    //autosave
+    [self saveToSalesforceClicked:nil];
 }
 
 

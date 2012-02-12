@@ -142,6 +142,14 @@
              //drop those events in the dictionary
              ATEvent *atevent = [[ATEvent alloc] init];
              [atevent withSFDCEvent:sfdcEvent];
+             
+             //do a check if an iPad event is already in the dictionary. If so, put the eventidentifier in the ATEvent. That will allow us to double-delete SFDC and iPad events if the users wishes so
+             if([allevents objectForKey:eventkey]) {
+                 //get the iPad event
+                 ATEvent *temp = [allevents objectForKey:eventkey];
+                 [atevent setEkeventid:[temp ekeventid]];
+             }
+             //this setObject will replace any existing atevent when the key is the same
              [allevents setObject:atevent forKey:eventkey];
              [atevent release];
          }
@@ -269,6 +277,10 @@
     Day *d = [week objectForKey:dayheader];
     //cell.textLabel.text = [[self.dataRows objectAtIndex:[indexPath row]] fieldValue:@"Subject"];
     //NSLog(@"DEBUG : %@ - %@", indexPath, dayheader);
+    
+    
+    //TODO : Handle all day events ... right now they're skipped in the query
+    
     ATEvent *ev = [d.events objectAtIndex:[indexPath row]];
     cell.textLabel.text = [ev subject];
     
@@ -277,6 +289,7 @@
     [dtf setDateFormat:@"HH:mm"];
     NSDate *starttime = [ev startdate];
     NSDate *endtime = [ev enddate];
+    
     NSString *activitytime = [[NSString alloc] initWithFormat:@"%@ - %@", [dtf stringFromDate:starttime],[dtf stringFromDate:endtime]];
     cell.detailTextLabel.text = activitytime;
     cell.detailTextLabel.textAlignment = UITextAlignmentRight;
@@ -356,8 +369,10 @@
 //A notification will be dispatched from the detail view to the app delegate, calling this method when an ipad event is saved to salesforce
 //ipad event saved to salesforce
 -(void)eventsaved:(NSNotification *)notification {
+    CGPoint yoffset = tableview.contentOffset;
     [self queryForEvents];
     [[self tableview] reloadData];
+    tableview.contentOffset = yoffset;
 }
 
 
