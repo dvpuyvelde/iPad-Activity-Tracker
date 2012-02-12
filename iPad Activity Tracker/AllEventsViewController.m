@@ -128,17 +128,15 @@
     ZKUserInfo *uinfo =  [client currentUserInfo];
     
     NSString *userid = [uinfo userId];
-    NSString *activitiesquery = [[NSString alloc ] initWithFormat:@"select Id, Subject, ActivityDateTime, EndDateTime, Location, What.Name, WhatId, StartDateTime, DurationInMinutes, Description, Type from Event where OwnerId ='%@' and ActivityDate >=%@ and ActivityDate <=%@ order by StartDateTime limit 200", userid, [Utils formatDateAsString:[self startdate]], [Utils formatDateAsString:[self enddate]]];
+    NSString *activitiesquery = [[NSString alloc ] initWithFormat:@"select Id, Subject, ActivityDateTime, EndDateTime, Location, What.Name, WhatId, StartDateTime, DurationInMinutes, Description, Type, isAlldayEvent from Event where OwnerId ='%@' and ActivityDate >=%@ and ActivityDate <=%@ order by StartDateTime limit 200", userid, [Utils formatDateAsString:[self startdate]], [Utils formatDateAsString:[self enddate]]];
     
     @try {
         ZKQueryResult *result = [client query:activitiesquery];
         //drop them in the allevents eventkeys set
          for(ZKSObject *sfdcEvent in [result records]) {
-             //all day events have an empty ActivityDateTime ... need to fix that. Skip for now
-             if([sfdcEvent fieldValue:@"ActivityDateTime"] == nil) continue;
              
              //let's create a fake key to compare : startdatetimeinutc_subject
-             NSString *eventkey = [[[NSString alloc ] initWithFormat:@"%@_%@", [sfdcEvent fieldValue:@"ActivityDateTime"], [sfdcEvent fieldValue:@"Subject"]] autorelease];
+             NSString *eventkey = [[[NSString alloc ] initWithFormat:@"%@_%@", [sfdcEvent fieldValue:@"StartDateTime"], [sfdcEvent fieldValue:@"Subject"]] autorelease];
              //drop those events in the dictionary
              ATEvent *atevent = [[ATEvent alloc] init];
              [atevent withSFDCEvent:sfdcEvent];

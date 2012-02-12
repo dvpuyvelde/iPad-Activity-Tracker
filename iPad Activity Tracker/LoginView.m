@@ -13,6 +13,7 @@
 #import "SFDC.h"
 #import "NSURL+Additions.h"
 #import "SimpleKeychain.h"
+#import <QuartzCore/QuartzCore.h>
 
 static NSString *OAUTH_CLIENTID = @"3MVG99OxTyEMCQ3hRUGLgJAnih3VIVuDxxlXj88D.ruS45yi.z0rQG_h0IPlvc66hb3PZ3xNrk3dV1iqRzvsa";
 static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
@@ -43,6 +44,12 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[webView layer] setCornerRadius:10];
+    [webView setClipsToBounds:YES];
+    [[webView layer] setBorderColor:
+     [[UIColor colorWithRed:1 green:1 blue:1 alpha:1] CGColor]];
+    [[webView layer] setBorderWidth:4];
     
     //if we already have a refresh token, use that to log in and don't ask again
     NSString *refreshtoken = [SimpleKeychain load:@"refreshtoken"];
@@ -138,6 +145,7 @@ static NSString *OAUTH_CALLBACK = @"iPadActivityTracker://login/success";
 {
     [self setWebView:nil];
     [self setActivityIndicator:nil];
+    [self setTitleLabel:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

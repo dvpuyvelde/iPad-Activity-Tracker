@@ -9,11 +9,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "iPad Activity Tracker/AllEventsViewController.m"
-         timestampString = "350764610.239265"
+         timestampString = "350775834.499495"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "159"
-         endingLineNumber = "159"
+         startingLineNumber = "157"
+         endingLineNumber = "157"
          landmarkName = "-queryForEvents"
          landmarkType = "5">
       </FileBreakpoint>
@@ -28,6 +28,20 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "134"
          endingLineNumber = "134"
+         landmarkName = "-queryForEvents"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "iPad Activity Tracker/AllEventsViewController.m"
+         timestampString = "350775834.499495"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "139"
+         endingLineNumber = "139"
          landmarkName = "-queryForEvents"
          landmarkType = "5">
       </FileBreakpoint>

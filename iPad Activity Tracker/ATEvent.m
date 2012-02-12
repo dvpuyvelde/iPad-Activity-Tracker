@@ -56,9 +56,9 @@
 -(void)withSFDCEvent:(ZKSObject *)sfdcevent {
     self.sfdcid = [sfdcevent fieldValue:@"Id"];
     //let's create a fake key to compare : startdatetimeinutc_subject
-    NSString *eventkey = [[[NSString alloc ] initWithFormat:@"%@_%@", [sfdcevent fieldValue:@"ActivityDateTime"], [sfdcevent fieldValue:@"Subject"]] autorelease];
+    NSString *eventkey = [[[NSString alloc ] initWithFormat:@"%@_%@", [sfdcevent fieldValue:@"StartDateTime"], [sfdcevent fieldValue:@"Subject"]] autorelease];
     self.comparekey = eventkey;
-    self.startdate = [sfdcevent dateTimeValue:@"ActivityDateTime"];
+    self.startdate = [sfdcevent dateTimeValue:@"StartDateTime"];
     self.enddate = [sfdcevent dateTimeValue:@"EndDateTime"];
     self.subject = [sfdcevent fieldValue:@"Subject"];
     self.location = [sfdcevent fieldValue:@"Location"];
