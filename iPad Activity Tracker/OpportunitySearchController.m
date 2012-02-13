@@ -173,7 +173,7 @@
     self.selectedopportunity = opp;
     [[self navigationController] popViewControllerAnimated:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OPPORTUNITYSELECTED" object:self];
-    searchbar.text = @"";
+    //searchbar.text = @"";
 }
 
 

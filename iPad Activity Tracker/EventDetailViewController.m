@@ -58,6 +58,14 @@
     [ImageCalendarTypeOutlet release];
     [WebView release];
     [activityIndicator release];
+    [opportunityselectcontroller release];
+    [opportunitysearchcontroller release];
+    [accountselectcontroller release];
+    [tabcon release];
+    [oppnavcon release];
+    [oppsearchnavcon release];
+    [accountssearchnavcon release];
+    
     [super dealloc];
 }
 
@@ -87,6 +95,39 @@
     [super viewDidLoad];
 
     // Do any additional setup after loading the view from its nib.
+    
+    //create the opportunity select controller for following opportunities
+    opportunityselectcontroller =  [[OpportunitySelectController alloc] initWithNibName:@"OpportunitySelectController" bundle:[NSBundle mainBundle]];
+    opportunityselectcontroller.tabBarItem.image = [UIImage imageNamed:@"piggy.png"];
+    opportunityselectcontroller.title = @"My Opportunities";
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(opportunityselected:) name:@"OPPORTUNITYSELECTED" object:opportunityselectcontroller];
+    
+    //create the opportunity search controller
+    opportunitysearchcontroller = [[OpportunitySearchController alloc] initWithNibName:@"OpportunitySearchController" bundle:nil];
+    opportunitysearchcontroller.title = @"Search Opportunities";
+    opportunitysearchcontroller.tabBarItem.image = [UIImage imageNamed:@"magnifyingglass.png"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(opportunityselected:) name:@"OPPORTUNITYSELECTED" object:opportunitysearchcontroller];
+    
+    //create the account select (search) controller
+    accountselectcontroller = [[AccountSelectController alloc] initWithNibName:@"AccountSelectController" bundle:[NSBundle mainBundle]];
+    accountselectcontroller.title = @"Search Accounts";
+    accountselectcontroller.tabBarItem.image = [UIImage imageNamed:@"bank.png"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountselected:) name:@"ACCOUNTSELECTED" object:accountselectcontroller];
+    
+    //create the tabbarcontroller
+    tabcon = [[UITabBarController alloc] init];
+    
+    //create a navigation controller to drop the my opportunity list in
+    oppnavcon = [[UINavigationController alloc] initWithRootViewController:opportunityselectcontroller];
+    //create a navigation controller to drop the search opportunities view in
+    oppsearchnavcon = [[UINavigationController alloc] initWithRootViewController:opportunitysearchcontroller];
+    //create a navigation controller to drop the search account view in
+    accountssearchnavcon = [[UINavigationController alloc] initWithRootViewController:accountselectcontroller];
+    
+    tabcon.viewControllers = [[[NSArray alloc] initWithObjects:oppnavcon, oppsearchnavcon, accountssearchnavcon, nil] autorelease];
+    
+    
     [self showHelp];
 }
 
@@ -100,6 +141,13 @@
     [self setImageCalendarTypeOutlet:nil];
     [self setWebView:nil];
     [self setActivityIndicator:nil];
+    opportunityselectcontroller = nil;
+    opportunitysearchcontroller = nil;
+    accountselectcontroller = nil;
+    tabcon = nil;
+    oppnavcon = nil;
+    oppsearchnavcon = nil;
+    accountssearchnavcon = nil;
     [super viewDidUnload];
 }
 
@@ -295,41 +343,17 @@ SAVE TO SALESFORCE
     POPUP RELATEDTO SELECT
  */
 - (IBAction)RelatedToButtonTouched:(id)sender {
-    //create the opportunity select controller for following opportunities
-    OpportunitySelectController *oppcon1 = [[[OpportunitySelectController alloc] initWithNibName:@"OpportunitySelectController" bundle:[NSBundle mainBundle]] autorelease];
-    oppcon1.tabBarItem.image = [UIImage imageNamed:@"piggy.png"];
-    oppcon1.title = @"My Opportunities";
-    oppcon1.opportunities = [NSMutableArray arrayWithArray:[[[SFDC sharedInstance] getDefaultUserOpportunities] copy]];
-    oppcon1.allopportunities = [NSMutableArray arrayWithArray:[[oppcon1 opportunities] copy]];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(opportunityselected:) name:@"OPPORTUNITYSELECTED" object:oppcon1];
-
-    //create the opportunity search controller
-    OpportunitySearchController *oppsearchcon = [[[OpportunitySearchController alloc] initWithNibName:@"OpportunitySearchController" bundle:nil] autorelease];
-    oppsearchcon.title = @"Search Opportunities";
-    oppsearchcon.tabBarItem.image = [UIImage imageNamed:@"magnifyingglass.png"];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(opportunityselected:) name:@"OPPORTUNITYSELECTED" object:oppsearchcon];
+    /*if(opportunityselectcontroller.opportunities == nil) {
+        opportunityselectcontroller.opportunities = [NSMutableArray arrayWithArray:[[[SFDC sharedInstance] getDefaultUserOpportunities] copy]];
+        NSMutableArray *allops = [NSMutableArray arrayWithArray:[[opportunityselectcontroller opportunities] copy]];
+        opportunityselectcontroller.allopportunities = allops;
+        
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(opportunityselected:) name:@"OPPORTUNITYSELECTED" object:opportunityselectcontroller];
+    }*/
     
-    //create the account select (search) controller
-    AccountSelectController *accountcon = [[[AccountSelectController alloc] initWithNibName:@"AccountSelectController" bundle:[NSBundle mainBundle]] autorelease];
-    accountcon.title = @"Search Accounts";
-    accountcon.tabBarItem.image = [UIImage imageNamed:@"bank.png"];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(accountselected:) name:@"ACCOUNTSELECTED" object:accountcon];
-    
-    //create the tabbarcontroller
-    UITabBarController *tabCon = [[UITabBarController alloc] init];
-    
-    //create a navigation controller to drop the my opportunity list in
-    UINavigationController *oppnavcon = [[[UINavigationController alloc] initWithRootViewController:oppcon1] autorelease];
-    //create a navigation controller to drop the search opportunities view in
-    UINavigationController *oppsearchnavcon = [[[UINavigationController alloc] initWithRootViewController:oppsearchcon] autorelease];
-    //create a navigation controller to drop the search account view in
-    UINavigationController *accountssearchnavcon = [[UINavigationController alloc] initWithRootViewController:accountcon];
-    
-    tabCon.viewControllers = [[NSArray alloc] initWithObjects:oppnavcon, oppsearchnavcon, accountssearchnavcon, nil];
-    
-    
-    self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:tabCon] autorelease];
+    self.popoverController = [[[UIPopoverController alloc] initWithContentViewController:tabcon] autorelease];
     
     
     
@@ -344,8 +368,6 @@ SAVE TO SALESFORCE
         [self.popoverController presentPopoverFromRect:button.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         
     }
-    
-    [tabCon release];
 }
 
 
@@ -422,16 +444,19 @@ SAVE TO SALESFORCE
     if([source isKindOfClass:[OpportunitySelectController class]]) {
         OpportunitySelectController *osc = [notification object];
         opp = [osc selectedopportunity];
+        self.relatedtooutlet.text = [opp fieldValue:@"Name"];
+        self.atevent.whatid = [opp fieldValue:@"Id"];
+        self.atevent.what = [opp fieldValue:@"Name"];
     }
-    if([source isKindOfClass:[OpportunitySearchController class]]) {
+    else if ([source isKindOfClass:[OpportunitySearchController class]]) {
         OpportunitySearchController *osc = [notification object];
         opp = [osc selectedopportunity];
+        self.relatedtooutlet.text = [opp fieldValue:@"Name"];
+        self.atevent.whatid = [opp fieldValue:@"Id"];
+        self.atevent.what = [opp fieldValue:@"Name"];
     }
 
-    self.relatedtooutlet.text = [opp fieldValue:@"Name"];
     
-    self.atevent.whatid = [opp fieldValue:@"Id"];
-    self.atevent.what = [opp fieldValue:@"Name"];
     
     [[self popoverController] dismissPopoverAnimated:NO];
     

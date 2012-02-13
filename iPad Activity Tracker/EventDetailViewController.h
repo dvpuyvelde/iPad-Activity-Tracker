@@ -10,6 +10,9 @@
 #import "ZKSObject.h"
 #import <Eventkit/EventKit.h>
 #import "ATEvent.h"
+#import "OpportunitySelectController.h"
+#import "OpportunitySearchController.h"
+#import "AccountSelectController.h"
 
 @interface EventDetailViewController : UIViewController <UIPopoverControllerDelegate, UISplitViewControllerDelegate> {
 
@@ -26,6 +29,13 @@
     BOOL issfdcevent;
     UIPopoverController *popoverController;
     EKEventStore *store;
+    OpportunitySelectController *opportunityselectcontroller;
+    OpportunitySearchController *opportunitysearchcontroller;
+    AccountSelectController *accountselectcontroller;
+    UITabBarController *tabcon;
+    UINavigationController *oppnavcon;
+    UINavigationController *oppsearchnavcon;
+    UINavigationController *accountssearchnavcon;
 }
 
 

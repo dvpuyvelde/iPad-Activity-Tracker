@@ -24,6 +24,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+
     }
     return self;
 }
@@ -59,8 +60,11 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    //allopportunities = [[SFDC sharedInstance] getDefaultUserOpportunities];
-    //opportunities = [NSMutableArray arrayWithArray:[allopportunities copy]];
+    if(allopportunities == nil) allopportunities = [[SFDC sharedInstance] getDefaultUserOpportunities];
+    if(opportunities == nil) {
+        opportunities = [[NSMutableArray alloc] init];
+        [opportunities addObjectsFromArray:allopportunities];
+    }
 }
 
 - (void)viewDidUnload
@@ -108,6 +112,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
+    //return [[self opportunities] count];
     return [[self opportunities] count];
 }
 
@@ -147,8 +152,8 @@
     self.selectedopportunity = obj;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OPPORTUNITYSELECTED" object:self];
     
-    NSLog(@"Selected opp name : %@", [[self selectedopportunity] fieldValue:@"Name"]);
-    searchbar.text = @"";
+    //NSLog(@"Selected opp name : %@", [[self selectedopportunity] fieldValue:@"Name"]);
+    //searchbar.text = @"";
     
 }
 
@@ -160,7 +165,7 @@
     self.selectedopportunity = opp;
     [[self navigationController] popViewControllerAnimated:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OPPORTUNITYSELECTED" object:self];
-    searchbar.text = @"";
+    //searchbar.text = @"";
 }
 
 
